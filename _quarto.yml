@@ -9,8 +9,15 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-      - href: dataviz.qmd
-        text: Data Viz
+      - text: Data Viz
+        menu:
+          - href: dataviz.qmd
+            text: Overview
+          - href: TidyOne.qmd
+            text: Project 1
+          - href: TidyTwo.qumd
+            text: Project 2
+
 
 format:
   html:
