@@ -4,7 +4,7 @@ image: Neha_Picture.png
 toc: false
 
 about:
-    template: jolla
+    template: solana
     image-shape: rounded
     image-width: 17em
     links:
