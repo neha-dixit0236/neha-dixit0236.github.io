@@ -14,4 +14,28 @@ cheeses <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/ti
 
 ```
 
-Here is some tidiness
+
+About the data:
+
+The data for this analysis come from the [TidyTuesday Edible Plants dataset](https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-06-04/cheeses.csv).
+
+
+About the dataset:
+
+This dataset comes from cheese.com. 
+
+
+
+
+About the data: 
+
+The data for this analysis come from the [TidyTuesday Edible Plants dataset](https://github.com/rfordatascience/tidytuesday/tree/main/data/2026/2026-02-03).
+
+
+About the dataset:
+
+The dataset comes from the Edible Plant Database (EPD). The EPD is an outcome of the GROW Observatory, a European Citizen Science project focused on growing food, monitoring land, and sensing soil moisture. This database contains information on 146 edible plant species, from each plant's idea growing conditions to their time to harvest and germination.
+
+
+
+
