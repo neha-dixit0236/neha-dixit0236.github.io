@@ -2,4 +2,4 @@
 title: "Neha Dixit"
 ---
 
-Hello! My name is Neha and I am a current junior at Pomona College majoring in math and minoring in cs. 
+Hello! My name is Neha and I am a current junior at Pomona College majoring in math and minoring in CS.
