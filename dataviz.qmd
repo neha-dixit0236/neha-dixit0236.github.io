@@ -1,3 +1,6 @@
 ---
 title: "Data Viz"
 ---
+
+All my tidy data goes here!
+
