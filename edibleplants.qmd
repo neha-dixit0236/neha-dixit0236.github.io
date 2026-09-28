@@ -1,5 +1,6 @@
 ---
 title: "Edible Plants"
+description: "Analysis of Edible Plant Data from TidyTuesday"
 format:
   html:
     code-fold: true

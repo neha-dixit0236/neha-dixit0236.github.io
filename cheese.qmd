@@ -1,5 +1,6 @@
 ---
 title: "Cheese"
+description: "Analysis of Cheese data from TidyTuesday"
 format:
   html:
     code-fold: true
