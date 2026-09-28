@@ -1,7 +1,5 @@
 ---
-title: "ds2-projects"
+title: "Neha Dixit"
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Hello! My name is Neha and I am a current junior at Pomona College majoring in math and minoring in cs. 
