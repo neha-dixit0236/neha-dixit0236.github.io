@@ -1,1 +1,18 @@
 /* css styles */
+
+
+/* Darker text for Data Viz dropdown menu */
+.navbar .dropdown-menu .dropdown-item {
+  color: #222222 !important;
+}
+
+/* Optional: darker background for the dropdown */
+.navbar .dropdown-menu {
+  background-color: #ffffff;
+}
+
+/* Text color when hovering */
+.navbar .dropdown-menu .dropdown-item:hover {
+  color: #000000 !important;
+  background-color: #f0f0f0;
+}

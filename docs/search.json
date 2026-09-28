@@ -19,5 +19,19 @@
     "title": "Data Viz",
     "section": "",
     "text": "All my tidy data goes here!"
+  },
+  {
+    "objectID": "TidyOne.html",
+    "href": "TidyOne.html",
+    "title": "TidyData One",
+    "section": "",
+    "text": "Here is my plot:"
+  },
+  {
+    "objectID": "TidyTwo.html",
+    "href": "TidyTwo.html",
+    "title": "TidyData Two",
+    "section": "",
+    "text": "Here is my plot:"
   }
 ]
