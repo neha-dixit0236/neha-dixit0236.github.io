@@ -1,5 +1,18 @@
 ---
 title: "Neha Dixit"
+image: Neha_Picture.png
+toc: false
+
+about:
+    template: solana
+    image-shape: rounded
+    image-width: 17em
+    links:
+        - text: GitHub
+          href: https://github.com/neha-dixit0236
+        - text: Email
+          href: ndbo2024@mymail.pomona.edu
+
 ---
 
 Hello! My name is Neha and I am a current junior at Pomona College majoring in math and minoring in CS.
