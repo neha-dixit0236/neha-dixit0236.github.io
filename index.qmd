@@ -8,11 +8,14 @@ about:
     image-shape: rounded
     image-width: 17em
     links:
-        - text: GitHub
+        - icon: github
+          text: GitHub
           href: https://github.com/neha-dixit0236
-        - text: Email
+        - icon: envelope
+          text: Email
           href: mailto:ndbo2024@mymail.pomona.edu
-        - text: GitHub R Code
+        - icon: github
+          text: GitHub R Code
           href: https://github.com/neha-dixit0236/neha-dixit0236.github.io
 
 ---
