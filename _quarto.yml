@@ -9,7 +9,7 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-      - dataviz.qmd
+      - href: dataviz.qmd
         text: Data Viz
 
 format:
