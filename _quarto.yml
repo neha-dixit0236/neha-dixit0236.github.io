@@ -15,7 +15,7 @@ website:
             text: Overview
           - href: TidyOne.qmd
             text: Project 1
-          - href: TidyTwo.qumd
+          - href: TidyTwo.qmd
             text: Project 2
 
 
