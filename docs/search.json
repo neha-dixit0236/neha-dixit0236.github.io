@@ -33,5 +33,12 @@
     "title": "TidyData Two",
     "section": "",
     "text": "Here is my plot:"
+  },
+  {
+    "objectID": "cheese.html",
+    "href": "cheese.html",
+    "title": "Cheese",
+    "section": "",
+    "text": "Show the code\ncheeses &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-06-04/cheeses.csv')\n\n\nHere is some tidiness"
   }
 ]

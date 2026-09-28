@@ -13,8 +13,8 @@ website:
         menu:
           - href: dataviz.qmd
             text: Overview
-          - href: TidyOne.qmd
-            text: Project 1
+          - href: cheese.qmd
+            text: Cheese
           - href: TidyTwo.qmd
             text: Project 2
 
