@@ -1,5 +1,0 @@
----
-title: "TidyData Two"
----
-
-Here is my plot:

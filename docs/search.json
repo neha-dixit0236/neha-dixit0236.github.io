@@ -40,5 +40,12 @@
     "title": "Cheese",
     "section": "",
     "text": "Show the code\ncheeses &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-06-04/cheeses.csv')\n\n\nHere is some tidiness"
+  },
+  {
+    "objectID": "edibleplants.html",
+    "href": "edibleplants.html",
+    "title": "Edible Plants",
+    "section": "",
+    "text": "Show the code\nedible_plants &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-02-03/edible_plants.csv')\n\n\nHere is my tidy analysis:"
   }
 ]

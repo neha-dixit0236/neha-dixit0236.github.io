@@ -1,0 +1,18 @@
+---
+title: "Edible Plants"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+execute:
+  warning: false
+  message: false
+---
+
+
+```{r}
+edible_plants <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-02-03/edible_plants.csv')
+
+```
+
+Here is my tidy analysis:
