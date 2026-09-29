@@ -27,6 +27,7 @@ The data for this analysis come from the [TidyTuesday Edible Plants dataset](htt
 
 The dataset comes from the Edible Plant Database (EPD). The EPD is an outcome of the GROW Observatory, a European Citizen Science project focused on growing food, monitoring land, and sensing soil moisture. This database contains information on 146 edible plant species, from each plant's idea growing conditions to their time to harvest and germination.
 
+
 **Citation:**
 
 Edible Plant Database. (n.d.). Edible Plant Database. https://edibleplantdb.org/
@@ -51,7 +52,7 @@ ggplot(edible_plants2, aes(x = cultivation)) +
 
 ```
 
-This bar chart depicts the water requirements of edible plants across different cultivation types. Specifically, it shows the percentage of each cultivation type requires a certain amount of water. As shown in the chart, legumes have the greatest variety in terms of water requirements, with around 20% requiring very low water and a little under 12% of legumes needing high amounts of water to grow. The chart also indicates that a medium water requirement is the most prevalant across all edible plants, regardless of the cultivation type
+This bar chart depicts the water requirements of edible plants across different cultivation types. Specifically, it shows the percentage of each cultivation type requires a certain amount of water. As shown in the chart, legumes have the greatest variety in terms of water requirements, with around 20% requiring very low water and a little under 12% of legumes needing high amounts of water to grow. The chart also indicates that a medium water requirement is the most prevalant across all edible plants, regardless of the cultivation type.
 
 
 

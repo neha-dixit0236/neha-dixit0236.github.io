@@ -19,23 +19,42 @@ cheeses <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/ti
 ```
 
 
-About the data:
+**About the data:**
 
 The data for this analysis come from the [TidyTuesday Cheese dataset](https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-06-04/cheeses.csv).
 
 
-About the dataset:
+**About the dataset:**
 
 This dataset comes from cheese.com. Cheese.com is an online database containing information about cheese from all around the globe. They have data around the specific ingredients for each cheese, what wines pair well with each cheese, and photos of all the cheeses. This dataset in particular contains information on 1187 different cheeses, from their country of origin to the fat content of the cheese.
 
-Full citation: 
+
+**Citation:**
+
 Cheese.com - World’s Greatest Cheese Resource. (2019). Cheese.Com. https://www.cheese.com/
 
 
-My Tidy Graphs:
+**Tidy Analysis:**
 
 ```{r}
+library(tidyverse)
+library(dplyr)
+
+cheeses2 <- cheeses |>
+    filter(!is.na(rind))
+
+
+ggplot(cheeses2, aes(x = milk)) + 
+  geom_bar(position = "fill", aes(fill = rind), width = 0.5, na.rm = TRUE) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(
+    title = "Water Requirements Across Edible Plants",
+    x = "Type of Edible Plant"
+  )
+
 
 ```
+
+
 
 
