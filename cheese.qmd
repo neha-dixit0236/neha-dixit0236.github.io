@@ -1,6 +1,6 @@
 ---
 title: "Cheese"
-description: "Analysis of Cheese data from TidyTuesday"
+description: "Analysis of Cheese Data from TidyTuesday"
 format:
   html:
     code-fold: true
@@ -10,6 +10,7 @@ execute:
   message: false
 ---
 
+
 ```{r}
 cheeses <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-06-04/cheeses.csv')
 
@@ -18,25 +19,15 @@ cheeses <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/ti
 
 About the data:
 
-The data for this analysis come from the [TidyTuesday Edible Plants dataset](https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-06-04/cheeses.csv).
+The data for this analysis come from the [TidyTuesday Cheese dataset](https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-06-04/cheeses.csv).
 
 
 About the dataset:
 
-This dataset comes from cheese.com. 
+This dataset comes from cheese.com. Cheese.com is an online database containing information about cheese from all around the globe. They have data around the specific ingredients for each cheese, what wines pair well with each cheese, and photos of all the cheeses. This dataset in particular contains information on 1187 different cheeses, from their country of origin to the fat content of the cheese.
 
 
-
-
-About the data: 
-
-The data for this analysis come from the [TidyTuesday Edible Plants dataset](https://github.com/rfordatascience/tidytuesday/tree/main/data/2026/2026-02-03).
-
-
-About the dataset:
-
-The dataset comes from the Edible Plant Database (EPD). The EPD is an outcome of the GROW Observatory, a European Citizen Science project focused on growing food, monitoring land, and sensing soil moisture. This database contains information on 146 edible plant species, from each plant's idea growing conditions to their time to harvest and germination.
-
+My Tidy Graphs:
 
 
 
