@@ -18,19 +18,21 @@ edible_plants <- readr::read_csv('https://raw.githubusercontent.com/rfordatascie
 
 ```
 
-About the data: 
+**About the data:** 
 
 The data for this analysis come from the [TidyTuesday Edible Plants dataset](https://github.com/rfordatascience/tidytuesday/tree/main/data/2026/2026-02-03).
 
 
-About the dataset:
+**About the dataset:**
 
 The dataset comes from the Edible Plant Database (EPD). The EPD is an outcome of the GROW Observatory, a European Citizen Science project focused on growing food, monitoring land, and sensing soil moisture. This database contains information on 146 edible plant species, from each plant's idea growing conditions to their time to harvest and germination.
 
-Citation: 
+**Citation:**
+
 Edible Plant Database. (n.d.). Edible Plant Database. https://edibleplantdb.org/
 
 
+**Tidy Analysis:**
 
 ```{r}
 library(tidyverse)
@@ -41,6 +43,7 @@ edible_plants2 <- edible_plants |>
 
 ggplot(edible_plants2, aes(x = cultivation)) + 
   geom_bar(position = "fill", aes(fill = new_water), width = 0.5) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(
     title = "Water Requirements Across Edible Plants",
     x = "Type of Edible Plant"
