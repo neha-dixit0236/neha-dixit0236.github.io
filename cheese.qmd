@@ -41,16 +41,14 @@ library(tidyverse)
 library(dplyr)
 
 cheeses2 <- cheeses |>
-    filter(!is.na(rind))
+    filter(!is.na(rind)) |>
+    group_by(rind) |>
+    mutate(num_cheeses = n())
 
 
-ggplot(cheeses2, aes(x = milk)) + 
-  geom_bar(position = "fill", aes(fill = rind), width = 0.5, na.rm = TRUE) + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(
-    title = "Water Requirements Across Edible Plants",
-    x = "Type of Edible Plant"
-  )
+ggplot(cheeses2, aes(x = rind, fill = color)) + 
+    geom_bar(position = "fill")
+  
 
 
 ```
