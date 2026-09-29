@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Neha Dixit",
     "section": "",
-    "text": "Hello! My name is Neha and I am a current junior at Pomona College majoring in math and minoring in CS."
+    "text": "Hello! My name is Neha and I am a current junior at Pomona College studying math and computer science. Outside of school, I enjoy reading and __."
   },
   {
     "objectID": "about.html",
@@ -46,6 +46,6 @@
     "href": "edibleplants.html",
     "title": "Edible Plants",
     "section": "",
-    "text": "Show the code\nedible_plants &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-02-03/edible_plants.csv')\n\n\nAbout the data:\nThe data for this analysis come from the TidyTuesday Edible Plants dataset.\nAbout the dataset:\nThe dataset comes from the Edible Plant Database (EPD). The EPD is an outcome of the GROW Observatory, a European Citizen Science project focused on growing food, monitoring land, and sensing soil moisture. This database contains information on 146 edible plant species, from each plant’s idea growing conditions to their time to harvest and germination."
+    "text": "Show the code\nedible_plants &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-02-03/edible_plants.csv')\n\n\nAbout the data:\nThe data for this analysis come from the TidyTuesday Edible Plants dataset.\nAbout the dataset:\nThe dataset comes from the Edible Plant Database (EPD). The EPD is an outcome of the GROW Observatory, a European Citizen Science project focused on growing food, monitoring land, and sensing soil moisture. This database contains information on 146 edible plant species, from each plant’s idea growing conditions to their time to harvest and germination.\nCitation: Edible Plant Database. (n.d.). Edible Plant Database. https://edibleplantdb.org/"
   }
 ]

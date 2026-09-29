@@ -26,6 +26,9 @@ About the dataset:
 
 This dataset comes from cheese.com. Cheese.com is an online database containing information about cheese from all around the globe. They have data around the specific ingredients for each cheese, what wines pair well with each cheese, and photos of all the cheeses. This dataset in particular contains information on 1187 different cheeses, from their country of origin to the fat content of the cheese.
 
+Full citation: 
+Cheese.com - World’s Greatest Cheese Resource. (2019). Cheese.Com. https://www.cheese.com/
+
 
 My Tidy Graphs:
 

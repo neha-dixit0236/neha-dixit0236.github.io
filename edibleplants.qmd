@@ -25,6 +25,11 @@ About the dataset:
 
 The dataset comes from the Edible Plant Database (EPD). The EPD is an outcome of the GROW Observatory, a European Citizen Science project focused on growing food, monitoring land, and sensing soil moisture. This database contains information on 146 edible plant species, from each plant's idea growing conditions to their time to harvest and germination.
 
+Citation: 
+Edible Plant Database. (n.d.). Edible Plant Database. https://edibleplantdb.org/
+
+
+
 ```{r}
 
 ```
