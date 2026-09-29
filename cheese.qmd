@@ -3,10 +3,12 @@ title: "Cheese"
 description: "Analysis of Cheese Data from TidyTuesday"
 author: Neha Dixit
 date: September 28, 2026
+
 format:
   html:
     code-fold: true
     code-summary: "Show the code"
+
 execute:
   warning: false
   message: false
@@ -53,6 +55,29 @@ ggplot(cheeses2, aes(x = rind, fill = color)) +
 
 ```
 
+```{r}
+library(tidyverse)
 
+cheeses2 <- cheeses |>
+  filter(!is.na(rind)) |>
+  group_by(rind) |>
+  summarise(n = n()) |>
+  mutate(percent = n / sum(n) * 100)
+
+ggplot(cheeses2, aes(x = "", y = n, fill = rind)) +
+  geom_col(width = 1) +
+  coord_polar("y") +
+  geom_text(
+    aes(
+      label = ifelse(percent >= 2, paste0(round(percent, 1), "%"), "")
+    ),
+    position = position_stack(vjust = 0.5)
+  ) +
+  labs(
+    fill = "Rind",
+    title = "Percentage of Cheeses by Rind Type"
+  ) +
+  theme_void()
+```
 
 
