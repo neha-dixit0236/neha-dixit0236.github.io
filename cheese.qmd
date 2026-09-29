@@ -38,22 +38,7 @@ Cheese.com - World’s Greatest Cheese Resource. (2019). Cheese.Com. https://www
 
 **Tidy Analysis:**
 
-```{r}
-library(tidyverse)
-library(dplyr)
 
-cheeses2 <- cheeses |>
-    filter(!is.na(rind)) |>
-    group_by(rind) |>
-    mutate(num_cheeses = n())
-
-
-ggplot(cheeses2, aes(x = rind, fill = color)) + 
-    geom_bar(position = "fill")
-  
-
-
-```
 
 ```{r}
 library(tidyverse)
@@ -64,20 +49,19 @@ cheeses2 <- cheeses |>
   summarise(n = n()) |>
   mutate(percent = n / sum(n) * 100)
 
-ggplot(cheeses2, aes(x = "", y = n, fill = rind)) +
-  geom_col(width = 1) +
-  coord_polar("y") +
+ggplot(cheeses2, aes(x = reorder(rind, percent), y = percent)) +
+  geom_col() +
+  coord_flip() +
   geom_text(
-    aes(
-      label = ifelse(percent >= 2, paste0(round(percent, 1), "%"), "")
-    ),
-    position = position_stack(vjust = 0.5)
+    aes(label = paste0(round(percent, 1), "%")),
+    hjust = -0.1
   ) +
   labs(
-    fill = "Rind",
+    x = "Rind",
+    y = "Percentage of Cheeses",
     title = "Percentage of Cheeses by Rind Type"
   ) +
-  theme_void()
+  ylim(0, max(cheeses2$percent) + 5)
 ```
 
 
