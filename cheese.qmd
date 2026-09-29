@@ -1,6 +1,8 @@
 ---
 title: "Cheese"
 description: "Analysis of Cheese Data from TidyTuesday"
+author: Neha Dixit
+date: September 28, 2026
 format:
   html:
     code-fold: true

@@ -20,4 +20,4 @@ about:
 
 ---
 
-Hello! My name is Neha and I am a current junior at Pomona College studying math and computer science. Outside of school, I enjoy reading and __.
+Hello! My name is Neha and I am a current junior at Pomona College studying math and computer science.

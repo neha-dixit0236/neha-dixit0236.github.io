@@ -6,6 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Neha Dixit">
+<meta name="dcterms.date" content="2026-09-28">
 <meta name="description" content="Analysis of Edible Plant Data from TidyTuesday">
 
 <title>Edible Plants – Neha Dixit</title>
@@ -355,7 +357,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Neha Dixit </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 28, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -376,6 +390,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>About the dataset:</p>
 <p>The dataset comes from the Edible Plant Database (EPD). The EPD is an outcome of the GROW Observatory, a European Citizen Science project focused on growing food, monitoring land, and sensing soil moisture. This database contains information on 146 edible plant species, from each plant’s idea growing conditions to their time to harvest and germination.</p>
 <p>Citation: Edible Plant Database. (n.d.). Edible Plant Database. https://edibleplantdb.org/</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#making a bar chart depicting the various water requirements across the types of edible plants</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>edible_plants2 <span class="ot">&lt;-</span> edible_plants <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new_water =</span> <span class="fu">str_to_lower</span>(water))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(edible_plants2, <span class="fu">aes</span>(<span class="at">x =</span> cultivation)) <span class="sc">+</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> new_water), <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Water Requirements Across Edible Plants"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Type of Edible Plant"</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="edibleplants_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This bar chart depicts the water requirements of edible plants across different cultivation types. Specifically, it shows the percentage of each cultivation type requires a certain amount of water. As shown in the chart, legumes have the greatest variety in terms of water requirements, with around 20% requiring very low water and a little under 12% of legumes needing high amounts of water to grow. The chart also indicates that a medium water requirement is the most prevalant across all edible plants, regardless of the cultivation type</p>
 
 
 

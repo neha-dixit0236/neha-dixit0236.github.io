@@ -1,6 +1,8 @@
 ---
 title: "Edible Plants"
 description: "Analysis of Edible Plant Data from TidyTuesday"
+author: Neha Dixit
+date: September 28, 2026
 format:
   html:
     code-fold: true
@@ -31,7 +33,25 @@ Edible Plant Database. (n.d.). Edible Plant Database. https://edibleplantdb.org/
 
 
 ```{r}
+library(tidyverse)
+
+#making a bar chart depicting the various water requirements across the types of edible plants
+edible_plants2 <- edible_plants |>
+  mutate(new_water = str_to_lower(water))
+
+ggplot(edible_plants2, aes(x = cultivation)) + 
+  geom_bar(position = "fill", aes(fill = new_water), width = 0.5) + 
+  labs(
+    title = "Water Requirements Across Edible Plants",
+    x = "Type of Edible Plant"
+  )
 
 ```
+
+This bar chart depicts the water requirements of edible plants across different cultivation types. Specifically, it shows the percentage of each cultivation type requires a certain amount of water. As shown in the chart, legumes have the greatest variety in terms of water requirements, with around 20% requiring very low water and a little under 12% of legumes needing high amounts of water to grow. The chart also indicates that a medium water requirement is the most prevalant across all edible plants, regardless of the cultivation type
+
+
+
+
 
 
