@@ -11,10 +11,10 @@ website:
       - about.qmd
       - text: Data Viz
         menu:
+          - text: "Cheese"
           - href: cheese.qmd
-            text: Cheese
+          - text: "Edible Plants"
           - href: edibleplants.qmd
-            text: Edible Plants
 
 
 format:

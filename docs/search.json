@@ -39,7 +39,7 @@
     "href": "cheese.html",
     "title": "Cheese",
     "section": "",
-    "text": "Show the code\ncheeses &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-06-04/cheeses.csv')\n\n\nHere is some tidiness"
+    "text": "Show the code\ncheeses &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-06-04/cheeses.csv')\n\n\nAbout the data:\nThe data for this analysis come from the TidyTuesday Cheese dataset.\nAbout the dataset:\nThis dataset comes from cheese.com. Cheese.com is an online database containing information about cheese from all around the globe. They have data around the specific ingredients for each cheese, what wines pair well with each cheese, and photos of all the cheeses. This dataset in particular contains information on 1187 different cheeses, from their country of origin to the fat content of the cheese.\nMy Tidy Graphs:"
   },
   {
     "objectID": "edibleplants.html",
