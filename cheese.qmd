@@ -46,22 +46,20 @@ library(tidyverse)
 cheeses2 <- cheeses |>
   filter(!is.na(rind)) |>
   group_by(rind) |>
-  summarise(n = n()) |>
-  mutate(percent = n / sum(n) * 100)
+  summarise(num_cheeses = n()) |>
+  mutate(percent = num_cheeses / sum(num_cheeses) * 100) |>
+  arrange(desc(percent))
 
 ggplot(cheeses2, aes(x = reorder(rind, percent), y = percent)) +
-  geom_col() +
-  coord_flip() +
-  geom_text(
-    aes(label = paste0(round(percent, 1), "%")),
-    hjust = -0.1
-  ) +
-  labs(
-    x = "Rind",
-    y = "Percentage of Cheeses",
-    title = "Percentage of Cheeses by Rind Type"
-  ) +
-  ylim(0, max(cheeses2$percent) + 5)
+    coord_flip() +
+    geom_col() +
+    labs(
+        title = "Percentage of Cheeses by Rind Type",
+        x = "Rind",
+        y = "Percentage of Cheeses"
+    )
+
 ```
 
 
+This bar chart shows what percentof all cheese in the dataset has each type of rind. From the visual, we can see that about half of all the cheeses in this dataset have natural rinds. 
