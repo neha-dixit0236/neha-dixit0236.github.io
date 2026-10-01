@@ -15,7 +15,7 @@ about:
           text: Email
           href: mailto:ndbo2024@mymail.pomona.edu
         - icon: github
-          text: GitHub R Code
+          text: R Code for this Website
           href: https://github.com/neha-dixit0236/neha-dixit0236.github.io
 
 ---

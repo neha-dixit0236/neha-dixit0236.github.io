@@ -23,7 +23,7 @@ cheeses <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/ti
 
 **About the data:**
 
-The data for this analysis come from the [TidyTuesday Cheese dataset](https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-06-04/cheeses.csv).
+The data for this analysis come from the [TidyTuesday Cheese dataset](https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-06-04).
 
 
 **About the dataset:**
