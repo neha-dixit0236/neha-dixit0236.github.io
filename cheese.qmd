@@ -47,7 +47,7 @@ cheeses2 <- cheeses |>
   filter(!is.na(rind)) |>
   group_by(rind) |>
   summarise(num_cheeses = n()) |>
-  mutate(percent = num_cheeses / sum(num_cheeses) * 100) |>
+  mutate(percent = num_cheeses / sum(num_cheeses) * 100)
 
 ggplot(cheeses2, aes(x = reorder(rind, percent), y = percent)) +
     coord_flip() +
