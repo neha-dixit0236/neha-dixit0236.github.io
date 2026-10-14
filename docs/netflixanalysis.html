@@ -341,8 +341,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#about-the-data" id="toc-about-the-data" class="nav-link" data-scroll-target="#about-the-data">About the Data</a>
+  <ul class="collapse">
+  <li><a href="#about-the-dataset" id="toc-about-the-dataset" class="nav-link" data-scroll-target="#about-the-dataset">About the Dataset</a></li>
+  </ul></li>
+  <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis">Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#visualization-1" id="toc-visualization-1" class="nav-link" data-scroll-target="#visualization-1">Visualization 1</a></li>
+  </ul></li>
+  <li><a href="#visualization-2" id="toc-visualization-2" class="nav-link" data-scroll-target="#visualization-2">Visualization 2</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -387,29 +402,234 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>netflix_titles <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-04-20/netflix_titles.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+</div>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Movie and TV show titles are the first things users look at when trying to decide what to watch on streaming platforms like Netflix. While titles are often short, they are meant to draw audiences in, convince them to watch a movie/show, and hint at what the movie might be about. Thus, my first visualization explores the most frequent words that appear in titles across genres. Specifically, I am looking at 15 genres: Action, Comedy, Drama, Horror, Romance, Sci-Fi, Fantasy, Thriller, Mystery, Documentaries, Musical, Crime, Children, International, and Miscellaneous.</p>
+<p>Next, I will look at how title vocabulary changed before and during Covid-19. Specifically, I want to see whether words that center around disease, death, isolation, and other pandemic-related imagery were more common in movie titles before and during Covid.</p>
+</section>
+<section id="about-the-data" class="level1">
+<h1>About the Data</h1>
+<p>The data for this analysis come from the <a href="https://github.com/rfordatascience/tidytuesday/tree/main/data/2021/2021-04-20">TidyTuesday Netflix Titles dataset</a>.</p>
+<section id="about-the-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="about-the-dataset">About the Dataset</h3>
+<p>This dataset comes from Kaggle and was uploaded to the website by Shivam Bansal. The dataset consists of movies and TV shows available on Netflix as of 2020. Additionally, the dataset has been collected from Flixable, a third-party Netflix search engine.</p>
+<p>This database contains information on 7787 movies/TV shows on Netflix, from each show’s title to their cast, rating, and release date.</p>
+</section>
+</section>
+<section id="data-analysis" class="level1">
+<h1>Data Analysis</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a subset of the netflix_titles dataset</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cleaned_titles <span class="ot">&lt;-</span> netflix_titles <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(show_id, type, title, listed_in, release_year) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(title), <span class="sc">!</span><span class="fu">is.na</span>(listed_in)) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_rows</span>(listed_in, <span class="at">sep =</span> <span class="st">", "</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_rows</span>(listed_in, <span class="at">sep =</span> <span class="st">"&amp; "</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Adding variables and formatting the cleaned_titles dataset</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>cleaned_titles <span class="ot">&lt;-</span> cleaned_titles <span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">listed_in =</span> <span class="fu">str_to_lower</span>(listed_in)) <span class="sc">|&gt;</span> <span class="co">#string function 1</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">genre =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">str_detect</span>(listed_in, <span class="st">"action"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(listed_in, <span class="st">"adventure"</span>), <span class="st">"Action"</span>, <span class="co">#string function 2</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"comed"</span>), <span class="st">"Comedy"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"drama"</span>), <span class="st">"Drama"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"horror"</span>), <span class="st">"Horror"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"romant"</span>), <span class="st">"Romance"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"sci-fi"</span>), <span class="st">"Sci-Fi"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"fantasy"</span>), <span class="st">"Fantasy"</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"thriller"</span>), <span class="st">"Thriller"</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"myster"</span>), <span class="st">"Mystery"</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"docu"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(listed_in, <span class="st">"nature"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(listed_in, <span class="st">"science"</span>), <span class="st">"Documentary"</span>,</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"music"</span>), <span class="st">"Musical"</span>,</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"crime"</span>), <span class="st">"Crime"</span>,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"children"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(listed_in, <span class="st">"kid"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(listed_in, <span class="st">"teen"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(listed_in, <span class="st">"family"</span>), <span class="st">"Children"</span>, </span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(listed_in, <span class="st">"international"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(listed_in, <span class="st">"british"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(listed_in, <span class="st">"korean"</span>) <span class="sc">|</span> <span class="fu">str_detect</span>(listed_in, <span class="st">"spanish"</span>), <span class="st">"International"</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Miscellaneous"</span>))))))))))))))</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="visualization-1" class="level2">
+<h2 class="anchored" data-anchor-id="visualization-1">Visualization 1</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#filler words that need to be excluded</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>stop_words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"the"</span>, <span class="st">"and"</span>, <span class="st">"for"</span>, <span class="st">"with"</span>, <span class="st">"you"</span>, <span class="st">"your"</span>, <span class="st">"are"</span>, <span class="st">"was"</span>, <span class="st">"but"</span>, <span class="st">"not"</span>, <span class="st">"from"</span>, <span class="st">"this"</span>, <span class="st">"that"</span>, <span class="st">"his"</span>, <span class="st">"her"</span>, <span class="st">"its"</span>, <span class="st">"our"</span>, <span class="st">"out"</span>, <span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"of"</span>, <span class="st">"in"</span>, <span class="st">"to"</span>, <span class="st">"my"</span>, <span class="st">"la"</span>, <span class="st">"el"</span>, <span class="st">"on"</span>, <span class="st">"de"</span>, <span class="st">"be"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#splitting titles into individual words and cleaning them up</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>title_words <span class="ot">&lt;-</span> cleaned_titles <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_rows</span>(title, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>) <span class="sc">|&gt;</span> <span class="co">#regex 1</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">str_to_lower</span>(title), <span class="at">word =</span> <span class="fu">str_replace_all</span>(word, <span class="st">"[^a-z]"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span> <span class="co">#3rd string function! and 2nd regex</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">"(?&lt;![A-Za-z])[A-Za-z]{2,}(?![A-Za-z])"</span>), word <span class="sc">!=</span> <span class="st">""</span>, <span class="sc">!</span>word <span class="sc">%in%</span> stop_words <span class="co">#regex 3 and lookaround!</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#finding the top 3 words for each genre</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>top_words <span class="ot">&lt;-</span> title_words <span class="sc">|&gt;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">genre =</span> <span class="fu">as.factor</span>(genre)) <span class="sc">|&gt;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(genre, word, <span class="at">name =</span> <span class="st">"frequency"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(genre) <span class="sc">|&gt;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(frequency), word) <span class="sc">|&gt;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(rank <span class="sc">&lt;=</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">genre =</span> <span class="fu">fct_relevel</span>(genre, <span class="fu">c</span>(<span class="st">"Action"</span>, <span class="st">"Children"</span>, <span class="st">"Comedy"</span>, <span class="st">"Crime"</span>, <span class="st">"Documentary"</span>, <span class="st">"Drama"</span>, <span class="st">"Fantasy"</span>, <span class="st">"Horror"</span>, <span class="st">"International"</span>, <span class="st">"Musical"</span>, <span class="st">"Mystery"</span>, <span class="st">"Romance"</span>, <span class="st">"Sci-Fi"</span>, <span class="st">"Thriller"</span>, <span class="st">"Miscellaneous"</span>))) <span class="co">#factor function!</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">#making the plot</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_words, <span class="fu">aes</span>(<span class="at">x =</span> word, <span class="at">y =</span> frequency)) <span class="sc">+</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> genre, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Three Most Frequent Words in Netflix Titles by Genre"</span>,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">"Common filler words excluded"</span>,</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"Word"</span>,</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Frequency in Titles"</span>,</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">+</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="netflixanalysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="visualization-2" class="level1">
+<h1>Visualization 2</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select movies with known release years</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>covid_titles <span class="ot">&lt;-</span> netflix_titles <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"Movie"</span>, <span class="sc">!</span><span class="fu">is.na</span>(title),<span class="sc">!</span><span class="fu">is.na</span>(release_year)) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">period =</span> <span class="fu">ifelse</span>(release_year <span class="sc">&lt;=</span> <span class="dv">2018</span>, <span class="st">"Before COVID-19 (2018 and earlier)"</span>, <span class="st">"During COVID-19 (2019 and 2020)"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">disease =</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(title), <span class="st">"</span><span class="sc">\\</span><span class="st">b(covid|coronavirus|virus|viral|pandemic|epidemic|infection|infected|infectious|disease|plague|outbreak|fever|sick|sickness|illness|ill|contagion|contagious|germ|symptom|cough|flu|influenza|bacteria|bacterial|vaccine|vaccination|quarantine)</span><span class="sc">\\</span><span class="st">b"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">death =</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(title),<span class="st">"</span><span class="sc">\\</span><span class="st">b(death|dead|dying|die|died|dies|funeral|grave|graveyard|morgue|corpse|cemetery|burial|bury|buried|murder|murdered|killer|kill|killed|suicide|fatal|fatality)</span><span class="sc">\\</span><span class="st">b"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">isolation =</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(title),<span class="st">"</span><span class="sc">\\</span><span class="st">b(alone|lonely|loneliness|isolation|isolated|quarantine|lockdown|trapped|confined|separated|solitude|abandoned|stranded|deserted|hidden|missing|escape|prison|captive|imprisoned|locked|room|cabin|shelter|exile|outsider)</span><span class="sc">\\</span><span class="st">b"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">fear_survival =</span> <span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(title),<span class="st">"</span><span class="sc">\\</span><span class="st">b(fear|afraid|terror|terrified|panic|nightmare|survive|survival|survivor|apocalypse|apocalyptic|disaster|catastrophe|danger|threat|warning|destruction|collapse|end|extinction|invasion|attack|crisis|emergency|sacrifice|shelter|escape|chaos|doom|doomed)</span><span class="sc">\\</span><span class="st">b"</span>))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#converting the four theme columns into rows</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>covid_word_counts <span class="ot">&lt;-</span> covid_titles <span class="sc">|&gt;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(disease, death, isolation, fear_survival), <span class="at">names_to =</span> <span class="st">"theme"</span>,<span class="at">values_to =</span> <span class="st">"contains_word"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(period, theme) <span class="sc">|&gt;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">titles_with_words =</span> <span class="fu">sum</span>(contains_word))</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#counting all movies in each period</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>period_totals <span class="ot">&lt;-</span> covid_titles <span class="sc">|&gt;</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(period) <span class="sc">|&gt;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total_titles =</span> <span class="fu">length</span>(show_id))</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating the percentage of movies within each year category containing each theme</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>covid_word_counts <span class="ot">&lt;-</span> covid_word_counts <span class="sc">|&gt;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(period_totals, <span class="at">by =</span> <span class="st">"period"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">percentage =</span> titles_with_words <span class="sc">/</span> total_titles <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>           <span class="at">theme =</span> <span class="fu">ifelse</span>(theme <span class="sc">==</span> <span class="st">"disease"</span>, <span class="st">"Disease and illness"</span>, <span class="fu">ifelse</span>(theme <span class="sc">==</span> <span class="st">"death"</span>, <span class="st">"Death"</span>,<span class="fu">ifelse</span>(theme <span class="sc">==</span> <span class="st">"isolation"</span>, <span class="st">"Isolation and separation"</span>, <span class="st">"Fear, survival, and disaster"</span>)))</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">#making the plot</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(covid_word_counts, <span class="fu">aes</span>(<span class="at">x =</span> theme, <span class="at">y =</span> percentage, <span class="at">fill =</span> period)) <span class="sc">+</span> </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Pandemic-Related Vocabulary in Netflix Movie Titles"</span>,</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">"Comparison of titles released before and during COVID-19"</span>,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"Vocabulary theme"</span>,</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Movies containing at least one matching word (%)"</span>,</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="st">"Release period"</span>,</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">20</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="netflixanalysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>netflix_titles <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-04-20/netflix_titles.csv'</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cleaned_titles <span class="ot">&lt;-</span> netflix_titles <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(type, title, listed_in) <span class="sc">|&gt;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_rows</span>(listed_in, <span class="at">sep =</span> <span class="st">", "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if (str_detect(listed_in, "action") | str_detect(listed_in, "adventure")){</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Action"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "comed")){</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Comedy"</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "drama")){</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Drama"</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "horror")){</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Horror"</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "romant")){</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Romance"</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "sci-fi")){</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Sci-Fi"</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "fantasy")){</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Fantasy"</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "thriller")){</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Thriller"</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "myster")){</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Mystery"</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "docu") | str_detect(listed_in, "nature") | str_detect(listed_in, "science")){</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Comedy"</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "music")){</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Musical"</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "crime")){</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Crime"</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "children") | str_detect(listed_in, "kid") | str_detect(listed_in, "teen") | str_detect(listed_in, "family")){</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Comedy"</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="co">#             else if (str_detect(listed_in, "international") | str_detect(listed_in, "british") | str_detect(listed_in, "korean") | str_detect(listed_in, "spanish")){</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "International"</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="co">#             else{</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="co">#                 genre = "Miscellaneous"</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="co">#             }</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p><strong>Introduction</strong></p>
-<p>Movie and TV show titles are the first things users look at when trying to decide what to watch on streaming platforms like Netflix. While titles are often short, they are meant to draw audiences in, convince them to watch a movie/show, and hint at what the movie might be about.</p>
-<p>Thus, in this project, I will try to answer the question “In what ways does title vocabulary on Netflix differ across various genres?” Using the Tidy Tuesday dataset on Netflix titles, I will first compare frequent words in titles across genres. Specifically, I am looking at 12 genres: Action, Comedy, Drama, Horror, Romance, Sci-Fi, Fantasy, Thriller, Mystery, Western, Musical, and Crime. Then, I will look at how title vocabulary changed before and during Covid-19.</p>
-<p><strong>About the data:</strong></p>
-<p>The data for this analysis come from the <a href="https://github.com/rfordatascience/tidytuesday/tree/main/data/2021/2021-04-20">TidyTuesday Netflix Titles dataset</a>.</p>
-<p><strong>About the dataset:</strong></p>
-<p>This dataset comes from Kaggle and was uploaded to the website by Shivam Bansal. The dataset consists of movies and TV shows available on Netflix as of 2020. Additionally, the dataset has been collected from Flixable, a third-party Netflix search engine.</p>
-<p>This database contains information on 7787 movies/TV shows on Netflix, from each show’s title to their cast, rating, and release date.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

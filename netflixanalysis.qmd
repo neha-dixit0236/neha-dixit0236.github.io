@@ -20,14 +20,15 @@ netflix_titles <- readr::read_csv('https://raw.githubusercontent.com/rfordatasci
 ```
 
 
-## Introduction
+# Introduction
 
-Movie and TV show titles are the first things users look at when trying to decide what to watch on streaming platforms like Netflix. While titles are often short, they are meant to draw audiences in, convince them to watch a movie/show, and hint at what the movie might be about. 
+Movie and TV show titles are the first things users look at when trying to decide what to watch on streaming platforms like Netflix. While titles are often short, they are meant to draw audiences in, convince them to watch a movie/show, and hint at what the movie might be about. Thus, my first visualization explores the most frequent words that appear in titles across genres. Specifically, I am looking at 15 genres: Action, Comedy, Drama, Horror, Romance, Sci-Fi, Fantasy, Thriller, Mystery, Documentaries, Musical, Crime, Children, International, and Miscellaneous.
 
-Thus, in this project, I will try to answer the question "In what ways does title vocabulary on Netflix differ across various genres?" Using the Tidy Tuesday dataset on Netflix titles, I will first compare frequent words in titles across genres. Specifically, I am looking at 15 genres: Action, Comedy, Drama, Horror, Romance, Sci-Fi, Fantasy, Thriller, Mystery, Documentaries, Musical, Crime, Children, International, and Miscellaneous. Then, I will look at how title vocabulary changed before and during Covid-19.
+Next, I will look at how title vocabulary changed before and during Covid-19. Specifically, I want to see whether words that center around disease, death, isolation, and other pandemic-related imagery were more common in movie titles before and during Covid.
 
 
-## About the Data
+
+# About the Data
 
 The data for this analysis come from the [TidyTuesday Netflix Titles dataset](https://github.com/rfordatascience/tidytuesday/tree/main/data/2021/2021-04-20).
 
@@ -38,7 +39,7 @@ This dataset comes from Kaggle and was uploaded to the website by Shivam Bansal.
 
 This database contains information on 7787 movies/TV shows on Netflix, from each show's title to their cast, rating, and release date.
 
-## Data Analysis
+# Data Analysis
 
 ```{r}
 #Creating a subset of the netflix_titles dataset
@@ -85,7 +86,7 @@ cleaned_titles <- cleaned_titles |>
 
 
 
-# Visualization 1
+## Visualization 1
 
 ```{r}
 
@@ -127,6 +128,58 @@ ggplot(top_words, aes(x = word, y = frequency)) +
 
 
 
+
+# Visualization 2
+
+```{r}
+
+# Select movies with known release years
+covid_titles <- netflix_titles |>
+    filter(type == "Movie", !is.na(title),!is.na(release_year)) |>
+    mutate(period = ifelse(release_year <= 2018, "Before COVID-19 (2018 and earlier)", "During COVID-19 (2019 and 2020)")) |>
+
+    mutate(disease = str_detect(str_to_lower(title), "\\b(covid|coronavirus|virus|viral|pandemic|epidemic|infection|infected|infectious|disease|plague|outbreak|fever|sick|sickness|illness|ill|contagion|contagious|germ|symptom|cough|flu|influenza|bacteria|bacterial|vaccine|vaccination|quarantine)\\b")) |>
+    
+    mutate(death = str_detect(str_to_lower(title),"\\b(death|dead|dying|die|died|dies|funeral|grave|graveyard|morgue|corpse|cemetery|burial|bury|buried|murder|murdered|killer|kill|killed|suicide|fatal|fatality)\\b")) |>
+    
+    mutate(isolation = str_detect(str_to_lower(title),"\\b(alone|lonely|loneliness|isolation|isolated|quarantine|lockdown|trapped|confined|separated|solitude|abandoned|stranded|deserted|hidden|missing|escape|prison|captive|imprisoned|locked|room|cabin|shelter|exile|outsider)\\b")) |>
+
+    mutate(fear_survival = str_detect(str_to_lower(title),"\\b(fear|afraid|terror|terrified|panic|nightmare|survive|survival|survivor|apocalypse|apocalyptic|disaster|catastrophe|danger|threat|warning|destruction|collapse|end|extinction|invasion|attack|crisis|emergency|sacrifice|shelter|escape|chaos|doom|doomed)\\b"))
+
+
+
+#converting the four theme columns into rows
+covid_word_counts <- covid_titles |>
+    pivot_longer(cols = c(disease, death, isolation, fear_survival), names_to = "theme",values_to = "contains_word") |>
+    group_by(period, theme) |>
+    summarise(titles_with_words = sum(contains_word))
+
+#counting all movies in each period
+period_totals <- covid_titles |>
+    group_by(period) |>
+    summarise(total_titles = length(show_id))
+
+#calculating the percentage of movies within each year category containing each theme
+covid_word_counts <- covid_word_counts |>
+    left_join(period_totals, by = "period") |>
+    mutate(percentage = titles_with_words / total_titles * 100,
+           theme = ifelse(theme == "disease", "Disease and illness", ifelse(theme == "death", "Death",ifelse(theme == "isolation", "Isolation and separation", "Fear, survival, and disaster")))
+          )
+
+#making the plot
+ggplot(covid_word_counts, aes(x = theme, y = percentage, fill = period)) + 
+    geom_col(position = "dodge") +
+    labs(
+        title = "Pandemic-Related Vocabulary in Netflix Movie Titles",
+        subtitle = "Comparison of titles released before and during COVID-19",
+        x = "Vocabulary theme",
+        y = "Movies containing at least one matching word (%)",
+        fill = "Release period",
+    ) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 20, hjust = 1))
+
+```
 
 
 

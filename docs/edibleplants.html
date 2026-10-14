@@ -322,6 +322,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./edibleplants.html">
  <span class="dropdown-text">Edible Plants</span></a>
   </li>  
+        <li class="dropdown-header">Netflix Title Analysis</li>
+        <li>
+    <a class="dropdown-item" href="./netflixanalysis.html">
+ <span class="dropdown-text">Netflix Title Analysis</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -336,8 +341,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#about-the-data" id="toc-about-the-data" class="nav-link active" data-scroll-target="#about-the-data">About the data</a>
+  <ul class="collapse">
+  <li><a href="#about-the-dataset" id="toc-about-the-dataset" class="nav-link" data-scroll-target="#about-the-dataset">About the dataset</a>
+  <ul class="collapse">
+  <li><a href="#citation" id="toc-citation" class="nav-link" data-scroll-target="#citation">Citation</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#tidy-analysis" id="toc-tidy-analysis" class="nav-link" data-scroll-target="#tidy-analysis">Tidy Analysis</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -385,13 +403,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>edible_plants <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-02-03/edible_plants.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p><strong>About the data:</strong></p>
+<section id="about-the-data" class="level1">
+<h1>About the data</h1>
 <p>The data for this analysis come from the <a href="https://github.com/rfordatascience/tidytuesday/tree/main/data/2026/2026-02-03">TidyTuesday Edible Plants dataset</a>.</p>
-<p><strong>About the dataset:</strong></p>
+<section id="about-the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="about-the-dataset">About the dataset</h2>
 <p>The dataset comes from the Edible Plant Database (EPD). The EPD is an outcome of the GROW Observatory, a European Citizen Science project focused on growing food, monitoring land, and sensing soil moisture. This database contains information on 146 edible plant species, from each plant’s idea growing conditions to their time to harvest and germination.</p>
-<p><strong>Citation:</strong></p>
+<section id="citation" class="level3">
+<h3 class="anchored" data-anchor-id="citation">Citation</h3>
 <p>Edible Plant Database. (n.d.). Edible Plant Database. https://edibleplantdb.org/</p>
-<p><strong>Tidy Analysis:</strong></p>
+</section>
+</section>
+</section>
+<section id="tidy-analysis" class="level1">
+<h1>Tidy Analysis</h1>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -420,6 +445,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This bar chart depicts the water requirements of edible plants across different cultivation types. Specifically, it shows the percentage of each cultivation type requires a certain amount of water. As shown in the chart, legumes have the greatest variety in terms of water requirements, with around 20% requiring very low water and a little under 12% of legumes needing high amounts of water to grow. The chart also indicates that a medium water requirement is the most prevalant across all edible plants, regardless of the cultivation type.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
