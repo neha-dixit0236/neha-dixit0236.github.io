@@ -12,12 +12,37 @@ execute:
   message: false
 ---
 
-
+```{r}
+library(tidyverse)
+```
 
 ```{r}
 netflix_titles <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-04-20/netflix_titles.csv')
+
+cleaned_titles <- netflix_titles |>
+    select(type, title, listed_in) |>
+    separate_rows(listed_in, sep = ", ")
+
 ```
 
+
+**Introduction**
+
+Movie and TV show titles are the first things users look at when trying to decide what to watch on streaming platforms like Netflix. While titles are often short, they are meant to draw audiences in, convince them to watch a movie/show, and hint at what the movie might be about. 
+
+Thus, in this project, I will try to answer the question "In what ways does title vocabulary on Netflix differ across various genres?" Using the Tidy Tuesday dataset on Netflix titles, I will first compare frequent words in titles across genres. Specifically, I am looking at 12 genres: Action, Comedy, Drama, Horror, Romance, Sci-Fi, Fantasy, Thriller, Mystery, Western, Musical, and Crime. Then, I will look at how title vocabulary changed before and during Covid-19.
+
+
+**About the data:** 
+
+The data for this analysis come from the [TidyTuesday Netflix Titles dataset](https://github.com/rfordatascience/tidytuesday/tree/main/data/2021/2021-04-20).
+
+
+**About the dataset:**
+
+This dataset comes from Kaggle and was uploaded to the website by Shivam Bansal. The dataset consists of movies and TV shows available on Netflix as of 2020. Additionally, the dataset has been collected from Flixable, a third-party Netflix search engine.
+
+This database contains information on 7787 movies/TV shows on Netflix, from each show's title to their cast, rating, and release date.
 
 
 

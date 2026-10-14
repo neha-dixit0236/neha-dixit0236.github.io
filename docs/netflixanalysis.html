@@ -387,9 +387,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>netflix_titles <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-04-20/netflix_titles.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>netflix_titles <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-04-20/netflix_titles.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cleaned_titles <span class="ot">&lt;-</span> netflix_titles <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(type, title, listed_in) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_rows</span>(listed_in, <span class="at">sep =</span> <span class="st">", "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Introduction</strong> Movie and TV show titles are the first things users look at when trying to decide what to watch on streaming platforms like Netflix. While titles are often short, they are meant to draw audiences in, convince them to watch a movie/show, and hint at what the movie might be about.</p>
+<p>Thus, in this project, I will try to answer the question “In what ways does title vocabulary on Netflix differ across various genres?” Using the Tidy Tuesday dataset on Netflix titles, I will first compare frequent words in titles across genres. Specifically, I am looking at 12 genres: Action, Comedy, Drama, Horror, Romance, Sci-Fi, Fantasy, Thriller, Mystery, Western, Musical, and Crime. Then, I will look at how title vocabulary changed before and during Covid-19.</p>
+<p><strong>About the data:</strong></p>
+<p>The data for this analysis come from the <a href="https://github.com/rfordatascience/tidytuesday/tree/main/data/2021/2021-04-20">TidyTuesday Netflix Titles dataset</a>.</p>
+<p><strong>About the dataset:</strong></p>
+<p>This dataset comes from Kaggle and was uploaded to the website by Shivam Bansal. The dataset consists of movies and TV shows available on Netflix as of 2020. Additionally, the dataset has been collected from Flixable, a third-party Netflix search engine.</p>
+<p>This database contains information on 7787 movies/TV shows on Netflix, from each show’s title to their cast, rating, and release date.</p>
 
 
 
