@@ -1,0 +1,32 @@
+---
+title: "Netflix Title Analysis"
+description: "Analysis of Netflix Titles"
+author: Neha Dixit
+date: October 13, 2026
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+execute:
+  warning: false
+  message: false
+---
+
+
+
+```{r}
+netflix_titles <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-04-20/netflix_titles.csv')
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
