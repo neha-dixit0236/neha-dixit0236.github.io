@@ -22,9 +22,11 @@ netflix_titles <- readr::read_csv('https://raw.githubusercontent.com/rfordatasci
 
 # Introduction
 
-Movie and TV show titles are the first things users look at when trying to decide what to watch on streaming platforms like Netflix. While titles are often short, they are meant to draw audiences in, convince them to watch a movie/show, and hint at what the movie might be about. Thus, my first visualization explores the most frequent words that appear in titles across genres. Specifically, I am looking at 15 genres: Action, Comedy, Drama, Horror, Romance, Sci-Fi, Fantasy, Thriller, Mystery, Documentaries, Musical, Crime, Children, International, and Miscellaneous.
+Movie and TV show titles are the first things users look at when trying to decide what to watch on streaming platforms like Netflix. While titles are often short, they are meant to draw audiences in, convince them to watch a movie/show, and hint at what the movie might be about. Thus, for my project, I am looking at what types of words occur in titles throughout genres and during different time periods, to see ___. 
 
-Next, I will look at how title vocabulary changed before and during Covid-19. Specifically, I want to see whether words that center around disease, death, isolation, and other pandemic-related imagery were more common in movie titles before and during Covid.
+My first visualization explores the most frequent words that appear in titles across genres. Specifically, I am looking at 14 genres: Action, Comedy, Drama, Horror, Romance, Sci-Fi & Fantasy, Thriller, Mystery, Documentaries, Musical, Crime, Family, International, and Miscellaneous.
+
+Next, I will look at how title vocabulary changed before and during Covid-19. Specifically, I want to see whether words that center around disease, death, isolation, and other pandemic-related imagery were more common in movie titles during Covid as opposed to before.
 
 
 
@@ -42,14 +44,14 @@ This database contains information on 7787 movies/TV shows on Netflix, from each
 # Data Analysis
 
 ```{r}
-#Creating a subset of the netflix_titles dataset
+#creating a subset of the netflix_titles dataset
 cleaned_titles <- netflix_titles |>
     select(show_id, type, title, listed_in, release_year) |>
     filter(!is.na(title), !is.na(listed_in)) |>
     separate_rows(listed_in, sep = ", ") |>
     separate_rows(listed_in, sep = "& ")
 
-#Adding variables and formatting the cleaned_titles dataset
+#adding variables and formatting the cleaned_titles dataset
 cleaned_titles <- cleaned_titles |>
     mutate(listed_in = str_to_lower(listed_in)) |> #string function 1
     mutate(genre = ifelse(
@@ -63,9 +65,7 @@ cleaned_titles <- cleaned_titles |>
 
             ifelse(str_detect(listed_in, "romant"), "Romance",
 
-            ifelse(str_detect(listed_in, "sci-fi"), "Sci-Fi",
-
-            ifelse(str_detect(listed_in, "fantasy"), "Fantasy",
+            ifelse(str_detect(listed_in, "sci-fi") | str_detect(listed_in, "fantasy"), "Sci-Fi & Fantasy",
 
             ifelse(str_detect(listed_in, "thriller"), "Thriller",
 
@@ -77,11 +77,11 @@ cleaned_titles <- cleaned_titles |>
 
             ifelse(str_detect(listed_in, "crime"), "Crime",
 
-            ifelse(str_detect(listed_in, "children") | str_detect(listed_in, "kid") | str_detect(listed_in, "teen") | str_detect(listed_in, "family"), "Children", 
+            ifelse(str_detect(listed_in, "children") | str_detect(listed_in, "kid") | str_detect(listed_in, "teen") | str_detect(listed_in, "family"), "Family", 
 
             ifelse(str_detect(listed_in, "international") | str_detect(listed_in, "british") | str_detect(listed_in, "korean") | str_detect(listed_in, "spanish"), "International",
             "Miscellaneous"))))))))))))))
-        )
+        
 ```
 
 
@@ -93,7 +93,7 @@ cleaned_titles <- cleaned_titles |>
 #filler words that need to be excluded
 stop_words <- c("the", "and", "for", "with", "you", "your", "are", "was", "but", "not", "from", "this", "that", "his", "her", "its", "our", "out", "one", "two", "of", "in", "to", "my", "la", "el", "on", "de", "be")
 
-#splitting titles into individual words and cleaning them up
+#splitting the titles into individual words and cleaning them up
 title_words <- cleaned_titles |>
     separate_rows(title, sep = "\\s+") |> #regex 1
     mutate(word = str_to_lower(title), word = str_replace_all(word, "[^a-z]", "")) |> #3rd string function! and 2nd regex
@@ -109,7 +109,7 @@ top_words <- title_words |>
     arrange(desc(frequency), word) |>
     mutate(rank = row_number()) |>
     filter(rank <= 3) |>
-    mutate(genre = fct_relevel(genre, c("Action", "Children", "Comedy", "Crime", "Documentary", "Drama", "Fantasy", "Horror", "International", "Musical", "Mystery", "Romance", "Sci-Fi", "Thriller", "Miscellaneous"))) #factor function!
+    mutate(genre = fct_relevel(genre, c("Action", "Family", "Comedy", "Crime", "Documentary", "Drama", "Horror", "International", "Musical", "Mystery", "Romance", "Sci-Fi & Fantasy", "Thriller", "Miscellaneous"))) #factor function!
 
 
 #making the plot
@@ -127,9 +127,13 @@ ggplot(top_words, aes(x = word, y = frequency)) +
 ```
 
 
+For this first visualization, I wanted to see how the most frequent words in movie/TV show titles differed across the various genres I chose. To do so, I sorted each of the 42 genres in the original dataset into 14 genres (Action, Comedy, Drama, Horror, Romance, Sci-Fi & Fantasy, Thriller, Mystery, Documentaries, Musical, Crime, Family, International, and Miscellaneous) and identified the top 3 words that appeared in movie titles with all of these genres. Some of the results I found were expected, such as with the crime genre's most popular words in titles ("murder", "killer", and "crime") or with the words in the documentary genre ("world", "story", "life"). Additionally, there are words that appear throughout many genres, like "love" and "christmas". However, the visual also shows us that many of the genres have titles with unintuitive words. For example, "black" is a word that shows up in many tites across genres, but I can't think of why that is.
+
+Ultimately, looking at this visual, it is clear that the connotations of words are considered when creating titles across genres. For example, words like "christmas" evoke feelings of comfort and joy, and these words are most frequently in romance, comedy, and family titles. On the other hand, words like "murder" and "killer" in movie/TV show titles suggest the title will be a crime-related story, and words like "house" and "dark" used in combination can suggest a horror/thriller title.
 
 
-# Visualization 2
+
+## Visualization 2
 
 ```{r}
 
@@ -138,13 +142,13 @@ covid_titles <- netflix_titles |>
     filter(type == "Movie", !is.na(title),!is.na(release_year)) |>
     mutate(period = ifelse(release_year <= 2018, "Before COVID-19 (2018 and earlier)", "During COVID-19 (2019 and 2020)")) |>
 
-    mutate(disease = str_detect(str_to_lower(title), "\\b(covid|coronavirus|virus|viral|pandemic|epidemic|infection|infected|infectious|disease|plague|outbreak|fever|sick|sickness|illness|ill|contagion|contagious|germ|symptom|cough|flu|influenza|bacteria|bacterial|vaccine|vaccination|quarantine)\\b")) |>
+    mutate(disease = str_detect(str_to_lower(title), "\\b(covid|coronavirus|virus|viral|pandemic|epidemic|infection|infected|infectious|disease|plague|outbreak|fever|sick|sickness|illness|ill|contagion|contagious|germ|symptom|cough|flu|influenza|bacteria|bacterial|vaccine|vaccination|quarantine|inject|injection|shot|)\\b"))|>
     
-    mutate(death = str_detect(str_to_lower(title),"\\b(death|dead|dying|die|died|dies|funeral|grave|graveyard|morgue|corpse|cemetery|burial|bury|buried|murder|murdered|killer|kill|killed|suicide|fatal|fatality)\\b")) |>
+    mutate(death = str_detect(str_to_lower(title),"\\b(death|dead|dying|die|died|dies|funeral|grave|graveyard|morgue|corpse|cemetery|burial|bury|buried|murder|murdered|killer|kill|killed|suicide|fatal|fatality|gore|blood|bloody|massacre)\\b")) |>
     
-    mutate(isolation = str_detect(str_to_lower(title),"\\b(alone|lonely|loneliness|isolation|isolated|quarantine|lockdown|trapped|confined|separated|solitude|abandoned|stranded|deserted|hidden|missing|escape|prison|captive|imprisoned|locked|room|cabin|shelter|exile|outsider)\\b")) |>
+    mutate(isolation = str_detect(str_to_lower(title),"\\b(alone|lonely|loneliness|isolation|isolated|quarantine|lockdown|trapped|confined|separated|solitude|abandoned|stranded|deserted|hidden|missing|escape|prison|captive|imprisoned|locked|room|cabin|shelter|exile|outsider|cage|lone|lock)\\b")) |>
 
-    mutate(fear_survival = str_detect(str_to_lower(title),"\\b(fear|afraid|terror|terrified|panic|nightmare|survive|survival|survivor|apocalypse|apocalyptic|disaster|catastrophe|danger|threat|warning|destruction|collapse|end|extinction|invasion|attack|crisis|emergency|sacrifice|shelter|escape|chaos|doom|doomed)\\b"))
+    mutate(fear_survival = str_detect(str_to_lower(title),"\\b(fear|afraid|terror|terrified|panic|nightmare|survive|survival|survivor|apocalypse|apocalyptic|disaster|catastrophe|danger|threat|warning|destruction|collapse|end|extinction|invasion|attack|crisis|emergency|sacrifice|shelter|escape|chaos|doom|doomed|scared|panic|nightmare)\\b"))
 
 
 
@@ -180,64 +184,6 @@ ggplot(covid_word_counts, aes(x = theme, y = percentage, fill = period)) +
     theme(axis.text.x = element_text(angle = 20, hjust = 1))
 
 ```
-
-
-
-
-
-
-
-
-
-```{r}
-# if (str_detect(listed_in, "action") | str_detect(listed_in, "adventure")){
-#                 genre = "Action"
-#             }
-#             else if (str_detect(listed_in, "comed")){
-#                 genre = "Comedy"
-#             }
-#             else if (str_detect(listed_in, "drama")){
-#                 genre = "Drama"
-#             }
-#             else if (str_detect(listed_in, "horror")){
-#                 genre = "Horror"
-#             }
-#             else if (str_detect(listed_in, "romant")){
-#                 genre = "Romance"
-#             }
-#             else if (str_detect(listed_in, "sci-fi")){
-#                 genre = "Sci-Fi"
-#             }
-#             else if (str_detect(listed_in, "fantasy")){
-#                 genre = "Fantasy"
-#             }
-#             else if (str_detect(listed_in, "thriller")){
-#                 genre = "Thriller"
-#             }
-#             else if (str_detect(listed_in, "myster")){
-#                 genre = "Mystery"
-#             }
-#             else if (str_detect(listed_in, "docu") | str_detect(listed_in, "nature") | str_detect(listed_in, "science")){
-#                 genre = "Comedy"
-#             }
-#             else if (str_detect(listed_in, "music")){
-#                 genre = "Musical"
-#             }
-#             else if (str_detect(listed_in, "crime")){
-#                 genre = "Crime"
-#             }
-#             else if (str_detect(listed_in, "children") | str_detect(listed_in, "kid") | str_detect(listed_in, "teen") | str_detect(listed_in, "family")){
-#                 genre = "Comedy"
-#             }
-#             else if (str_detect(listed_in, "international") | str_detect(listed_in, "british") | str_detect(listed_in, "korean") | str_detect(listed_in, "spanish")){
-#                 genre = "International"
-#             }
-#             else{
-#                 genre = "Miscellaneous"
-#             }
-```
-
-
 
 
 
