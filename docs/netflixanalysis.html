@@ -542,12 +542,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>covid_word_counts <span class="ot">&lt;-</span> covid_titles <span class="sc">|&gt;</span></span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(disease, death, isolation, fear_survival), <span class="at">names_to =</span> <span class="st">"theme"</span>,<span class="at">values_to =</span> <span class="st">"contains_word"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(period, theme) <span class="sc">|&gt;</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">titles_with_words =</span> <span class="fu">sum</span>(contains_word))</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">titles_with_words =</span> <span class="fu">sum</span>(contains_word))</span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#counting all movies in each period</span></span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>period_totals <span class="ot">&lt;-</span> covid_titles <span class="sc">|&gt;</span></span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(period) <span class="sc">|&gt;</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total_titles =</span> <span class="fu">length</span>(show_id))</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">total_titles =</span> <span class="fu">length</span>(show_id))</span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating the percentage of movies within each year category containing each theme</span></span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>covid_word_counts <span class="ot">&lt;-</span> covid_word_counts <span class="sc">|&gt;</span></span>

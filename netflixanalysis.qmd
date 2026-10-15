@@ -159,12 +159,12 @@ covid_titles <- netflix_titles |>
 covid_word_counts <- covid_titles |>
     pivot_longer(cols = c(disease, death, isolation, fear_survival), names_to = "theme",values_to = "contains_word") |>
     group_by(period, theme) |>
-    summarise(titles_with_words = sum(contains_word))
+    summarize(titles_with_words = sum(contains_word))
 
 #counting all movies in each period
 period_totals <- covid_titles |>
     group_by(period) |>
-    summarise(total_titles = length(show_id))
+    summarize(total_titles = length(show_id))
 
 #calculating the percentage of movies within each year category containing each theme
 covid_word_counts <- covid_word_counts |>
