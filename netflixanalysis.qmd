@@ -127,7 +127,9 @@ ggplot(top_words, aes(x = word, y = frequency)) +
 ```
 
 
-For this first visualization, I wanted to see how the most frequent words in movie/TV show titles differed across the various genres I chose. To do so, I sorted each of the 42 genres in the original dataset into 14 genres (Action, Comedy, Drama, Horror, Romance, Sci-Fi & Fantasy, Thriller, Mystery, Documentaries, Musical, Crime, Family, International, and Miscellaneous) and identified the top 3 words that appeared in movie titles with all of these genres. Some of the results I found were expected, such as with the crime genre's most popular words in titles ("murder", "killer", and "crime") or with the words in the documentary genre ("world", "story", "life"). Additionally, there are words that appear throughout many genres, like "love" and "christmas". However, the visual also shows us that many of the genres have titles with unintuitive words. For example, "black" is a word that shows up in many tites across genres, but I can't think of why that is.
+For this first visualization, I wanted to see how the most frequent words in movie/TV show titles differed across the various genres I chose. To do so, I sorted each of the 42 "listed_in" categories in the original dataset into 14 genres (Action, Comedy, Drama, Horror, Romance, Sci-Fi & Fantasy, Thriller, Mystery, Documentaries, Musical, Crime, Family, International, and Miscellaneous) and identified the top 3 words that appeared in movie titles within all of these genres.
+
+Some of the results I found were expected, such as with the crime genre's most popular words in titles ("murder", "killer", and "crime") or with the words in the documentary genre ("world", "story", "life"). Additionally, there are words that appear throughout many genres, like "love" and "christmas". However, the visual also shows us that many of the genres have titles with unintuitive words. For example, "black" is a word that shows up in many tites across genres, but I can't think of why that is.
 
 Ultimately, looking at this visual, it is clear that the connotations of words are considered when creating titles across genres. For example, words like "christmas" evoke feelings of comfort and joy, and these words are most frequently in romance, comedy, and family titles. On the other hand, words like "murder" and "killer" in movie/TV show titles suggest the title will be a crime-related story, and words like "house" and "dark" used in combination can suggest a horror/thriller title.
 
@@ -142,13 +144,13 @@ covid_titles <- netflix_titles |>
     filter(type == "Movie", !is.na(title),!is.na(release_year)) |>
     mutate(period = ifelse(release_year <= 2018, "Before COVID-19 (2018 and earlier)", "During COVID-19 (2019 and 2020)")) |>
 
-    mutate(disease = str_detect(str_to_lower(title), "\\b(covid|coronavirus|virus|viral|pandemic|epidemic|infection|infected|infectious|disease|plague|outbreak|fever|sick|sickness|illness|ill|contagion|contagious|germ|symptom|cough|flu|influenza|bacteria|bacterial|vaccine|vaccination|quarantine|inject|injection|shot|)\\b"))|>
+    mutate(disease = str_detect(str_to_lower(title), "\\b(covid|coronavirus|virus|viral|pandemic|epidemic|infection|infected|infectious|disease|plague|outbreak|fever|sick|sickness|illness|ill|contagion|contagious|germ|symptom|cough|flu|influenza|bacteria|bacterial|vaccine|vaccination|quarantine|inject|injection|shot|hospital|nurse|doctor)\\b"))|>
     
-    mutate(death = str_detect(str_to_lower(title),"\\b(death|dead|dying|die|died|dies|funeral|grave|graveyard|morgue|corpse|cemetery|burial|bury|buried|murder|murdered|killer|kill|killed|suicide|fatal|fatality|gore|blood|bloody|massacre)\\b")) |>
+    mutate(death = str_detect(str_to_lower(title),"\\b(death|dead|dying|die|died|dies|funeral|grave|graveyard|morgue|corpse|cemetery|burial|bury|buried|murder|murdered|killer|kill|killed|suicide|fatal|fatality|gore|blood|bloody|massacre|killing|slaughter)\\b")) |>
     
     mutate(isolation = str_detect(str_to_lower(title),"\\b(alone|lonely|loneliness|isolation|isolated|quarantine|lockdown|trapped|confined|separated|solitude|abandoned|stranded|deserted|hidden|missing|escape|prison|captive|imprisoned|locked|room|cabin|shelter|exile|outsider|cage|lone|lock)\\b")) |>
 
-    mutate(fear_survival = str_detect(str_to_lower(title),"\\b(fear|afraid|terror|terrified|panic|nightmare|survive|survival|survivor|apocalypse|apocalyptic|disaster|catastrophe|danger|threat|warning|destruction|collapse|end|extinction|invasion|attack|crisis|emergency|sacrifice|shelter|escape|chaos|doom|doomed|scared|panic|nightmare)\\b"))
+    mutate(fear_survival = str_detect(str_to_lower(title),"\\b(fear|afraid|terror|terrified|panic|nightmare|survive|survival|survivor|apocalypse|apocalyptic|disaster|catastrophe|danger|threat|warning|destruction|collapse|end|extinction|invasion|attack|crisis|emergency|sacrifice|shelter|escape|chaos|doom|doomed|scared|panic|petrify)\\b"))
 
 
 
@@ -177,13 +179,20 @@ ggplot(covid_word_counts, aes(x = theme, y = percentage, fill = period)) +
         title = "Pandemic-Related Vocabulary in Netflix Movie Titles",
         subtitle = "Comparison of titles released before and during COVID-19",
         x = "Vocabulary theme",
-        y = "Movies containing at least one matching word (%)",
+        y = "Movies/TV shows containing at least one matching word (%)",
         fill = "Release period",
     ) +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 20, hjust = 1))
 
 ```
+
+
+For the second visual, I wanted to see if there was a difference in the types of words in titles before and during Covid-19. Thus, I created four categories of pandemic-related words: words surrounding death, words about diseases, words corresponding with fear, survival, and disaster, and finally, words associated with being isolated. Movies/TV shows that were released in 2018 or before, I classified as "Before Covid", and any movies/shows released from 2019 and 2020 were considered "During Covid" titles. Each bar chart on this visual represents the percentage of titles within each time period that have words that fit in each of these categories.
+
+From the visual, we can see that there was a bit of a spike in the percentage of movie/show titles that contained words associated with death during Covid. Specifically, around 1.75% of all movies released before 2018 contained words associated with death, while around 2.3% of movies released in 2019 and 2020 had titles with words related to death. There is also an increase in the percentage of movie/show titles that contained words associated with disease during Covid, with 0.25% of titles containing words associated with illness before 2018 and around 0.375% of titles containing these types of words during Covid. However, the other two categories do not show a significant change in percentage of titles containing these words between the two time periods.
+
+While it's possible Covid could have influenced this increase, we cannot determine causality from this bar chart. First, words associated with these categories are subjective, and I only included a handful of words that I personally thought fit in the groups. Also, this dataset only includes titles released in 2020 and before, meaning the "before Covid" category has a much larger number of movies that could match the groups than the "during Covid" group does. Therefore, while the bar chart does show us that movies and shows during Covid have a higher percentage of pandemic-related words, the differences are not significant enough to prove anything.
 
 
 
