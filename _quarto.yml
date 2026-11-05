@@ -16,7 +16,7 @@ website:
           - href: netflixanalysis.qmd
       - text: Simulations
         menu:
-          - href: speeddatingsimulation.qmd
+          - href: chocolate.qmd
 
 
 format:

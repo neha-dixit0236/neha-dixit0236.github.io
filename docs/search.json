@@ -103,5 +103,12 @@
     "title": "Cheese",
     "section": "About the dataset",
     "text": "About the dataset\nThis dataset comes from cheese.com. Cheese.com is an online database containing information about cheese from all around the globe. They have data around the specific ingredients for each cheese, what wines pair well with each cheese, and photos of all the cheeses. This dataset in particular contains information on 1187 different cheeses, from their country of origin to the fat content of the cheese.\n\nCitation\nCheese.com - World’s Greatest Cheese Resource. (2019). Cheese.Com. https://www.cheese.com/"
+  },
+  {
+    "objectID": "chocolate.html",
+    "href": "chocolate.html",
+    "title": "Chocolate Simulation",
+    "section": "",
+    "text": "Show the code\nlibrary(tidyverse)\nchocolate &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/refs/heads/main/data/2022/2022-01-18/chocolate.csv')"
   }
 ]

@@ -1,0 +1,22 @@
+---
+title: "Chocolate Simulation"
+description: "Chocolate Analysis"
+author: Neha Dixit
+date: November 5, 2026
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+execute:
+  warning: false
+  message: false
+---
+
+```{r}
+
+library(tidyverse)
+chocolate <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/refs/heads/main/data/2022/2022-01-18/chocolate.csv')
+
+```
+
+
