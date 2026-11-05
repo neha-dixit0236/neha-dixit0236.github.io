@@ -1,0 +1,22 @@
+---
+title: "Speed Dating Simulation"
+description: "A Simulation of Speed Dating"
+author: Neha Dixit
+date: November 5, 2026
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+execute:
+  warning: false
+  message: false
+---
+
+
+
+```{r}
+library(tidyverse)
+
+speed_dating <- readr::read_csv("speed_dating.csv")
+
+```

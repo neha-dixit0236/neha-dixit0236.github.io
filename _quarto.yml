@@ -11,12 +11,12 @@ website:
       - about.qmd
       - text: Data Viz
         menu:
-          - text: "Cheese"
           - href: cheese.qmd
-          - text: "Edible Plants"
           - href: edibleplants.qmd
-          - text: "Netflix Title Analysis"
           - href: netflixanalysis.qmd
+      - text: Simulations
+        menu:
+          - href: speeddatingsimulation.qmd
 
 
 format:
