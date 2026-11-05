@@ -19,4 +19,36 @@ chocolate <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/
 
 ```
 
+# Introduction
+
+Chocolate is one of the most popular sweet treats globally, with the global chocolate market generating approximately $135 billion - $147 billion annually. From candy to various other desserts, chocolate is a versatile product that makes it's way into almost every cuisine. Because of it's popularity, there are many different ways companies create their chocolate, and there's a lot of discussion about how the number of ingredients in a chocolate bar affects the final flavor profile of the treat.
+
+For this simulation, we will be analyzing whether the number of ingredients in a chocolate bar is associated with a change in the overall rating of the chocolate bar. Specifically, we will be looking at the correlation between the number of ingredients in a chocolate bar and the overall rating for that chocolate bar.
+
+
+# Cleaning the Data
+
+First, we need to make sure the format of our data is correct to allow for the proper analysis. This requires us to change a few components in our dataframe:
+
+```{r}
+chocolate_two <- chocolate |>
+    mutate(num_ingredients = str_sub(ingredients, 1, 1))
+```
+
+Now, let's first visualize what the relationship between the number of ingredients in a chocolate bar and the rating is:
+
+```{r}
+
+chocolate_two |>
+    group_by(num_ingredients) |>
+    summarize(mean_rating = mean(rating, na.rm = TRUE)) |>
+    ggplot(aes(x = num_ingredients, y = mean_rating)) + 
+    geom_bar(fill = "darkgreen") +
+    labs(
+        title = "Chocolate Ingredients vs Rating",
+        x = 
+    )
+
+```
+
 
