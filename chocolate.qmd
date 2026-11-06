@@ -32,23 +32,29 @@ First, we need to make sure the format of our data is correct to allow for the p
 
 ```{r}
 chocolate_two <- chocolate |>
-    mutate(num_ingredients = str_sub(ingredients, 1, 1))
+    mutate(num_ingredients = str_sub(ingredients, 1, 1)) |>
+    filter(!is.na(num_ingredients))
+
 ```
 
-Now, let's first visualize what the relationship between the number of ingredients in a chocolate bar and the rating is:
+
+# Visualizing our Data
+
+Before we start with our simulation, let's visualize what the relationship is between the number of ingredients in a chocolate bar and the rating.
 
 ```{r}
-
 chocolate_two |>
     group_by(num_ingredients) |>
     summarize(mean_rating = mean(rating, na.rm = TRUE)) |>
     ggplot(aes(x = num_ingredients, y = mean_rating)) + 
-    geom_bar(fill = "darkgreen") +
+    geom_line(color = "#8B4513") +
+    geom_point(color = "#D2691E", size = 4) +
     labs(
-        title = "Chocolate Ingredients vs Rating",
-        x = 
-    )
-
+        title = "Number of Chocolate Ingredients vs Average Ratings",
+        x = "Number of Ingredients in the Chocolate Bar",
+        y = "Average Rating"
+    )+
+    theme_minimal()
 ```
 
 
