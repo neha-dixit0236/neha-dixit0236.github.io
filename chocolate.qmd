@@ -87,7 +87,7 @@ observed_correlation <- cor(
 observed_correlation
 ```
 
-We get that the observed correlation is -0.0988. This means there is a slight negative relationship between the number of ingredients in a chocolate bar and the rating it receives.
+We get that the observed correlation is -0.0988. This means there is a slight negative relationship between the number of ingredients in a chocolate bar and the rating it receives. In other words, this means that as the number of ingredients in a chocolate bar increases, the rating it receives starts to decrease.
 
 Now, under the null hypothesis, the ratings and the number of ingredients in the chocolate bar are unrelated. Thus, let's simulate this "null world" by randomly shuffling the ratings while leaving the ingredient counts in their original order. We can create a function to do this.
 
@@ -107,7 +107,7 @@ perm_data <- function(rep, data) {
 This function takes in a simulation number and our cleaned chocolate dataset. Then, from the dataset, it selects only the variables we are interested in: the number of ingredients in the chocolate bar and the rating. After that, it adds a new variable to the dataset, rating_perm. This variable creates a shuffled version of the chocolate bar ratings without replacement. Then, we summarize our results. observed_correlation calculates the correlation between the number of ingredients and the rating using the original data, and per_correlation calculates the correlation between these two variables for the shuffled ratings. Lastly, rep records the first argument of the function, the simulation number.
 
 
-Now, in order to complete this simulation, we need to perform this function many times. To do so, we can use map_dbl(), like so:
+In order to complete this simulation, we need to perform this function many times. To do so, we can use map_dbl(), as shown in the code below:
 
 ```{r}
 set.seed(47)
@@ -120,6 +120,39 @@ perm_stats <- map(1:num_exper, perm_data, data = chocolate_two) |>
 perm_stats |>
   head()
 ```
+
+
+Now, let's visualize the permutation distribution we've created.
+
+```{r}
+perm_stats |>
+  ggplot(aes(x = perm_correlation)) +
+  geom_histogram(binwidth = 0.02) +
+  geom_vline(
+    aes(xintercept = observed_correlation),
+    color = "red"
+  ) +
+  labs(
+    title = "Permutation Distribution of Chocolate Ratings",
+    x = "Permuted Correlation",
+    y = "Number of Simulations"
+  ) +
+  theme_minimal()
+```
+
+ We can see from this visual that the distribution of simulated correlations between the number of ingredients in a chocolate bar and its rating forms a bell-shaped curve centered around 0. Additionally, the red line in this visualization depicts the correlation that we observed from the data. We can see that our observed correlation is outside the bounds of the permutation distribution.
+
+
+Finally, let's calculate the p-value from this permutation test:
+
+```{r}
+perm_stats |>
+  summarize(
+    p_value = (sum(abs(perm_correlation) >= abs(observed_correlation)) + 1) / (n())
+  )
+```
+
+From the tibble, we can see that our p-value is 0.0002. Considering an alpha level of 0.05, we know that 0.0002 < 0.05. Since our p-value is less than alpha, we reject the null hypothesis. We have evidence that there is an association between the number of ingredients in a chocolate bar and its rating.
 
 
 
