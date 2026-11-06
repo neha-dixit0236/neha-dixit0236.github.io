@@ -32,9 +32,8 @@ First, we need to make sure the format of our data is correct to allow for the p
 
 ```{r}
 chocolate_two <- chocolate |>
-    mutate(num_ingredients = str_sub(ingredients, 1, 1)) |>
-    filter(!is.na(num_ingredients))
-
+    mutate(num_ingredients = str_sub(ingredients, "^\\s*\\d+")) |>
+    filter(!is.na(num_ingredients), !is.na(rating))
 ```
 
 
@@ -53,12 +52,32 @@ chocolate_two |>
         title = "Number of Chocolate Ingredients vs Average Ratings",
         x = "Number of Ingredients in the Chocolate Bar",
         y = "Average Rating"
-    )+
+    ) +
     theme_minimal()
 ```
 
 From the plot, we can see that the average ratings range from approximately 2.95 to 3.30, with chocolate bars containing 3 ingredients having the highest average rating. At first glance, this could suggest that chocolate bars with three ingredients are associated with higher ratings. However, the differences between these averages are relatively small, meaning we cannot make this conclusion. Additionally, this plot does not tell us whether these differences are statistically significant or whether they are due to random variation.
 
 Because of this, we will use a simulation (specifically, a permutation test) to test whether our data provides sufficient evidence of a relationship between the number of ingredients in a chocolate bar and its rating.
+
+
+# Conducting the Simulation
+
+We will be conducting a permutation test to investigate whether there is a relationship between the number of ingredients in a chocolate bar and it's rating. Because we want to analyze the strength and direction of the relationship between these two variables, our statistic of interest will be the Pearson correlation coefficient.
+
+In order to run a permutation test, we need to establish our hypotheses:
+
+$$H_0: \text{There is no association between the number of ingredients in a chocolate bar and its rating.}$$
+$$H_a: \text{There is an association between the number of ingredients in a chocolate bar and its rating.}$$
+
+We can also write our hypotheses numerically, using the Pearson correlation coefficient, like so:
+$$H_0: \rho = 0$$
+$$H_a: \rho \neq 0$$
+
+
+
+
+
+
 
 
