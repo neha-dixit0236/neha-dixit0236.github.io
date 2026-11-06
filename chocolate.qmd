@@ -32,7 +32,7 @@ First, we need to make sure the format of our data is correct to allow for the p
 
 ```{r}
 chocolate_two <- chocolate |>
-    mutate(num_ingredients = str_sub(ingredients, "^\\s*\\d+")) |>
+    mutate(num_ingredients = str_extract(ingredients, "^\\s*\\d+")) |>
     filter(!is.na(num_ingredients), !is.na(rating))
 ```
 
