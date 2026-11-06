@@ -449,7 +449,7 @@ window.Quarto = {
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>chocolate_two <span class="ot">&lt;-</span> chocolate <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">num_ingredients =</span> <span class="fu">str_extract</span>(ingredients, <span class="st">"^</span><span class="sc">\\</span><span class="st">s*</span><span class="sc">\\</span><span class="st">d+"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">num_ingredients =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(ingredients, <span class="st">"^</span><span class="sc">\\</span><span class="st">s*</span><span class="sc">\\</span><span class="st">d+"</span>))) <span class="sc">|&gt;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(num_ingredients), <span class="sc">!</span><span class="fu">is.na</span>(rating))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
@@ -490,6 +490,66 @@ window.Quarto = {
 <p>In order to run a permutation test, we need to establish our hypotheses:</p>
 <p><span class="math display">\[H_0: \text{There is no association between the number of ingredients in a chocolate bar and its rating.}\]</span> <span class="math display">\[H_a: \text{There is an association between the number of ingredients in a chocolate bar and its rating.}\]</span></p>
 <p>We can also write our hypotheses numerically, using the Pearson correlation coefficient, like so: <span class="math display">\[H_0: \rho = 0\]</span> <span class="math display">\[H_a: \rho \neq 0\]</span></p>
+<p>First, let’s calculate the observed correlation in our data. This will be the value we’ll compare against the correlations produced by our simulations.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>observed_correlation <span class="ot">&lt;-</span> <span class="fu">cor</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  chocolate_two<span class="sc">$</span>num_ingredients,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  chocolate_two<span class="sc">$</span>rating,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pearson"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>observed_correlation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.0988344</code></pre>
+</div>
+</div>
+<p>We get that the observed correlation is -0.0988. This means there is a slight negative relationship between the number of ingredients in a chocolate bar and the rating it receives.</p>
+<p>Now, under the null hypothesis, the ratings and the number of ingredients in the chocolate bar are unrelated. Thus, let’s simulate this “null world” by randomly shuffling the ratings while leaving the ingredient counts in their original order. We can create a function to do this.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>perm_data <span class="ot">&lt;-</span> <span class="cf">function</span>(rep, data) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(num_ingredients, rating) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">rating_perm =</span> <span class="fu">sample</span>(rating, <span class="at">replace =</span> <span class="cn">FALSE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">observed_correlation =</span> <span class="fu">cor</span>(num_ingredients, rating),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">perm_correlation =</span> <span class="fu">cor</span>(num_ingredients, rating_perm),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">rep =</span> rep</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>This function takes in a simulation number and our cleaned chocolate dataset. Then, from the dataset, it selects only the variables we are interested in: the number of ingredients in the chocolate bar and the rating. After that, it adds a new variable to the dataset, rating_perm. This variable creates a shuffled version of the chocolate bar ratings without replacement. Then, we summarize our results. observed_correlation calculates the correlation between the number of ingredients and the rating using the original data, and per_correlation calculates the correlation between these two variables for the shuffled ratings. Lastly, rep records the first argument of the function, the simulation number.</p>
+<p>Now, in order to complete this simulation, we need to perform this function many times. To do so, we can use map_dbl(), like so:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">47</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>num_exper <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>perm_stats <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span>num_exper, perm_data, <span class="at">data =</span> chocolate_two) <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>perm_stats <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  observed_correlation perm_correlation   rep
+                 &lt;dbl&gt;            &lt;dbl&gt; &lt;int&gt;
+1              -0.0988        -0.0167       1
+2              -0.0988         0.000555     2
+3              -0.0988         0.0108       3
+4              -0.0988        -0.00834      4
+5              -0.0988        -0.0235       5
+6              -0.0988        -0.00965      6</code></pre>
+</div>
+</div>
 
 
 </section>
