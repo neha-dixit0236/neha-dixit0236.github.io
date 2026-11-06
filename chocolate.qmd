@@ -32,10 +32,7 @@ The data for this analysis come from the [TidyTuesday Chocolate bars dataset](ht
 
 ### About the Dataset
 
-This dataset comes from the Flavors of Cacao website. The dataset consists of ______
-
-
-
+This dataset comes from the Flavors of Cacao website. The dataset contains 2,530 observations of chocolate bar reviews and 10 variables, from the company that manufactured the chocolate bar to the cocoa percentage of each bar.
 
 
 # Cleaning the Data

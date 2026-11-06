@@ -384,9 +384,14 @@ window.Quarto = {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#about-the-data" id="toc-about-the-data" class="nav-link" data-scroll-target="#about-the-data">About the Data</a>
+  <ul class="collapse">
+  <li><a href="#about-the-dataset" id="toc-about-the-dataset" class="nav-link" data-scroll-target="#about-the-dataset">About the Dataset</a></li>
+  </ul></li>
   <li><a href="#cleaning-the-data" id="toc-cleaning-the-data" class="nav-link" data-scroll-target="#cleaning-the-data">Cleaning the Data</a></li>
   <li><a href="#visualizing-our-data" id="toc-visualizing-our-data" class="nav-link" data-scroll-target="#visualizing-our-data">Visualizing our Data</a></li>
   <li><a href="#conducting-the-simulation" id="toc-conducting-the-simulation" class="nav-link" data-scroll-target="#conducting-the-simulation">Conducting the Simulation</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -441,6 +446,14 @@ window.Quarto = {
 <h1>Introduction</h1>
 <p>Chocolate is one of the most popular sweet treats globally, with the global chocolate market generating approximately $135 billion - $147 billion annually. From candy to various other desserts, chocolate is a versatile product that makes it’s way into almost every cuisine. Because of it’s popularity, there are many different ways companies create their chocolate, and there’s a lot of discussion about how the number of ingredients in a chocolate bar affects the final flavor profile of the treat.</p>
 <p>For this simulation, we will be analyzing whether the number of ingredients in a chocolate bar is associated with a change in the overall rating of the chocolate bar. Specifically, we will be looking at the correlation between the number of ingredients in a chocolate bar and the overall rating for that chocolate bar.</p>
+</section>
+<section id="about-the-data" class="level1">
+<h1>About the Data</h1>
+<p>The data for this analysis come from the <a href="https://github.com/rfordatascience/tidytuesday/tree/main/data/2022/2022-01-18">TidyTuesday Chocolate bars dataset</a>.</p>
+<section id="about-the-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="about-the-dataset">About the Dataset</h3>
+<p>This dataset comes from the Flavors of Cacao website. The dataset consists of ______</p>
+</section>
 </section>
 <section id="cleaning-the-data" class="level1">
 <h1>Cleaning the Data</h1>
@@ -506,7 +519,7 @@ window.Quarto = {
 <pre><code>[1] -0.0988344</code></pre>
 </div>
 </div>
-<p>We get that the observed correlation is -0.0988. This means there is a slight negative relationship between the number of ingredients in a chocolate bar and the rating it receives.</p>
+<p>We get that the observed correlation is -0.0988. This means there is a very week, negative, linear relationship between the number of ingredients in a chocolate bar and the rating it receives. In other words, this means that as the number of ingredients in a chocolate bar increases, the rating it receives starts to decrease. However, given that the correlation is very close to 0, this relationship is very weak.</p>
 <p>Now, under the null hypothesis, the ratings and the number of ingredients in the chocolate bar are unrelated. Thus, let’s simulate this “null world” by randomly shuffling the ratings while leaving the ingredient counts in their original order. We can create a function to do this.</p>
 <div class="cell">
 <details class="code-fold">
@@ -523,8 +536,8 @@ window.Quarto = {
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>This function takes in a simulation number and our cleaned chocolate dataset. Then, from the dataset, it selects only the variables we are interested in: the number of ingredients in the chocolate bar and the rating. After that, it adds a new variable to the dataset, rating_perm. This variable creates a shuffled version of the chocolate bar ratings without replacement. Then, we summarize our results. observed_correlation calculates the correlation between the number of ingredients and the rating using the original data, and per_correlation calculates the correlation between these two variables for the shuffled ratings. Lastly, rep records the first argument of the function, the simulation number.</p>
-<p>Now, in order to complete this simulation, we need to perform this function many times. To do so, we can use map_dbl(), like so:</p>
+<p>This function takes in a simulation number and our cleaned chocolate dataset. Then, from the dataset, it selects only the variables we are interested in: the number of ingredients in the chocolate bar and the rating. After that, it adds a new variable to the dataset, rating_perm. This variable creates a shuffled version of the chocolate bar ratings without replacement. Then, we summarize our results. observed_correlation calculates the correlation between the number of ingredients and the rating using the original data, and perm_correlation calculates the correlation between these two variables for the shuffled ratings. Lastly, rep records the first argument of the function, the simulation number.</p>
+<p>In order to complete this simulation, we need to perform this function many times. To do so, we can use map() to repeat our permutation function 5000 times (or any number specified by num_exper in the code) and list_rbind() (to create one final combined dataframe), as shown in the code below:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -550,6 +563,54 @@ window.Quarto = {
 6              -0.0988        -0.00965      6</code></pre>
 </div>
 </div>
+<p>Now, let’s visualize the permutation distribution we’ve created.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>perm_stats <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> perm_correlation)) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.02</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xintercept =</span> observed_correlation),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Distribution of Chocolate Ratings"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Permuted Correlation"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Simulations"</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chocolate_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see from this visualization that the distribution of simulated correlations is centered around 0, which we expect to see under the null hypothesis (as the null hypothesis states that the correlation is 0). Additionally, the red line in this visualization depicts the correlation that we observed from the data. We can see that this observed correlation is located far into the left tail of the permutation distribution, suggesting that it is unusual to observe this correlation due to random chance.</p>
+<p>Finally, let’s calculate the p-value from this permutation test:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>perm_stats <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> <span class="fu">mean</span>(perm_correlation <span class="sc">&gt;=</span> <span class="fu">abs</span>(observed_correlation) <span class="sc">|</span> perm_correlation <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fu">abs</span>(observed_correlation))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  p_value
+    &lt;dbl&gt;
+1       0</code></pre>
+</div>
+</div>
+<p>From the tibble, we can see that our p-value is 0. Considering an alpha level of 0.05, we know that 0 &lt; 0.05. Since our p-value is less than alpha, we reject the null hypothesis. We have evidence that there is an association between the number of ingredients in a chocolate bar and its rating.</p>
+<p>However, our observed correlation was only -0.0988, indicating that the relationship between these two variables is very weak. Thus, while our simulation does suggest that this observed relationship is unlikely to occur under the null hypothesis, the small observed correlation implies the number of ingredients in a chocolate bar does not strongly determine a chocolate bar’s rating. There are many other factors, like the cocoa content of a chocolate bar and where the beans originated that could also influence the ratings a chocolate bar receives.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
 
 
 </section>
