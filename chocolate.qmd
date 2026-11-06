@@ -91,11 +91,9 @@ First, let's calculate the observed correlation in our data. This will be the va
 
 
 ```{r}
-observed_correlation <- cor(
-  chocolate_two$num_ingredients,
-  chocolate_two$rating,
-  method = "pearson"
-)
+observed_correlation <- chocolate_two |>
+  summarize(observed_correlation = cor(num_ingredients, rating, method = "pearson")) |>
+  pull(observed_correlation)
 
 observed_correlation
 ```
