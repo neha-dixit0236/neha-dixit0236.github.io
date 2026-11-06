@@ -1,6 +1,6 @@
 ---
-title: "Chocolate Simulation"
-description: "Chocolate Analysis"
+title: "Chocolate Bar Ingredients and Ratings"
+description: "A Permutation Test of Chocolate Bar Ratings"
 author: Neha Dixit
 date: November 5, 2026
 format:
@@ -21,9 +21,13 @@ chocolate <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/
 
 # Introduction
 
-Chocolate is one of the most popular sweet treats globally, with the global chocolate market generating approximately $135 billion - $147 billion annually. From candy to various other desserts, chocolate is a versatile product that makes it's way into almost every cuisine. Because of it's popularity, there are many different ways companies create their chocolate, and there's a lot of discussion about how the number of ingredients in a chocolate bar affects the final flavor profile of the treat.
+Chocolate is one of the most popular sweet treats worldwide, with the global chocolate market valued at approximately $127 billion in 2025 (Grand View Research, 2026). One of the most common forms of chocolate is the chocolate bar, which comes in hundreds of different varieties. Chocolate manufacturers, in hopes of differentiating their products, will make chocolate bars with very different ingredients, cocoa percentages, and beans from all over the world. With so much variety, many chocolate connoisseurs focus on the ingredient lists in chocolate bars, often arguing that chocolate bars with fewer ingredients have a better flavor profile.
 
-For this simulation, we will be analyzing whether the number of ingredients in a chocolate bar is associated with a change in the overall rating of the chocolate bar. Specifically, we will be looking at the correlation between the number of ingredients in a chocolate bar and the overall rating for that chocolate bar.
+For this analysis, we will be looking into whether the number of ingredients in a chocolate bar is associated with a change in the overall rating of the chocolate bar. Specifically, we will be looking at the correlation between the number of ingredients in a chocolate bar and the overall rating for that chocolate bar.
+
+To do this analysis, we will first find the observed correlation. Then, we will conduct a permutation test (using the Peason correlation coefficient) to check whether our observed correlation could be explained by random variation, and use the results from the simulation to determine whether there is sufficient evidence of an association between the number of ingredients and the chocolate bar rating.
+
+
 
 # About the Data
 
@@ -96,7 +100,7 @@ observed_correlation <- cor(
 observed_correlation
 ```
 
-We get that the observed correlation is -0.0988. This means there is a very week, negative, linear relationship between the number of ingredients in a chocolate bar and the rating it receives. In other words, this means that as the number of ingredients in a chocolate bar increases, the rating it receives starts to decrease. However, given that the correlation is very close to 0, this relationship is very weak.
+We get that the observed correlation is -0.0988. This means there is a very weak, negative, linear relationship between the number of ingredients in a chocolate bar and the rating it receives. In other words, this means that as the number of ingredients in a chocolate bar increases, the rating it receives starts to decrease. However, given that the correlation is very close to 0, this relationship is very weak.
 
 Now, under the null hypothesis, the ratings and the number of ingredients in the chocolate bar are unrelated. Thus, let's simulate this "null world" by randomly shuffling the ratings while leaving the ingredient counts in their original order. We can create a function to do this.
 
@@ -167,6 +171,21 @@ From the tibble, we can see that our p-value is 0. Considering an alpha level of
 However, our observed correlation was only -0.0988, indicating that the relationship between these two variables is very weak. Thus, while our simulation does suggest that this observed relationship is unlikely to occur under the null hypothesis, the small observed correlation implies the number of ingredients in a chocolate bar does not strongly determine a chocolate bar's rating. There are many other factors, like the cocoa content of a chocolate bar and where the beans originated that could also influence the ratings a chocolate bar receives.
 
 
-# Conclusion
+# A Summary of the Process
+
+In this analysis, we explored whether the number of ingredients in a chocolate bar is associated with its overall rating. We started by cleaning our dataset and visualizing the average ratings for chocolate bars with different numbers of ingredients to get a sense of the relationship between the two variables. Then, we calculated the observed correlation and conducted a permutation test by randomly shuffling the ratings 5000 times to create a null distribution. Finally, we compared the observed correlation to this null distribution and calculated a p-value to determine whether there was sufficient evidence of an association between the number of ingredients in a chocolate bar and its rating.
+
+We found a p-value of 0, meaning we had evidence of an association between the two variables. However, because the observed correlation was -0.0988, we conclude that the relationship between these two variables is very weakly negative and linear.
+
+
+# References
+
+Grand View Research. (2026). *Chocolate market size, share & trends analysis report*. https://www.grandviewresearch.com/industry-analysis/chocolate-market
+
+TidyTuesday. (2022, January 18). *Chocolate ratings dataset*. https://github.com/rforddatascience/tidytuesday/tree/main/data/2022/2022-01-18
+
+Flavors of Cacao. (n.d.). *Flavors of Cacao*. https://www.flavorsofcacao.com/
+
+
 
 
