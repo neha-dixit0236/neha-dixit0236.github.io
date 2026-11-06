@@ -40,15 +40,15 @@ chocolate_two <- chocolate |>
 
 # Visualizing our Data
 
-Before we start with our simulation, let's visualize what the relationship is between the number of ingredients in a chocolate bar and the rating.
+Before starting our simulation, we should first visualize the relationship between the number of ingredients in a chocolate bar and its average rating. To do this, I grouped the chocolate bars by their number of ingredients and calculated the average rating for each group.
 
 ```{r}
 chocolate_two |>
     group_by(num_ingredients) |>
-    summarize(mean_rating = mean(rating, na.rm = TRUE)) |>
+    summarize(
+        mean_rating = mean(rating, na.rm = TRUE)) |>
     ggplot(aes(x = num_ingredients, y = mean_rating)) + 
-    geom_line(color = "#8B4513") +
-    geom_point(color = "#D2691E", size = 4) +
+    geom_col(fill = "chocolate") +
     labs(
         title = "Number of Chocolate Ingredients vs Average Ratings",
         x = "Number of Ingredients in the Chocolate Bar",
@@ -57,7 +57,8 @@ chocolate_two |>
     theme_minimal()
 ```
 
+From the plot, we can see that the average ratings range from approximately 2.95 to 3.30, with chocolate bars containing 3 ingredients having the highest average rating. At first glance, this could suggest that chocolate bars with three ingredients are associated with higher ratings. However, the differences between these averages are relatively small, meaning we cannot make this conclusion. Additionally, this plot does not tell us whether these differences are statistically significant or whether they are due to random variation.
 
-
+Because of this, we will use a simulation (specifically, a permutation test) to test whether our data provides sufficient evidence of a relationship between the number of ingredients in a chocolate bar and its rating.
 
 

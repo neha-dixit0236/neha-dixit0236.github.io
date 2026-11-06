@@ -426,16 +426,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="visualizing-our-data" class="level1">
 <h1>Visualizing our Data</h1>
-<p>Before we start with our simulation, let’s visualize what the relationship is between the number of ingredients in a chocolate bar and the rating.</p>
+<p>Before starting our simulation, we should first visualize the relationship between the number of ingredients in a chocolate bar and its average rating. To do this, I grouped the chocolate bars by their number of ingredients and calculated the average rating for each group.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>chocolate_two <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(num_ingredients) <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_rating =</span> <span class="fu">mean</span>(rating, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> num_ingredients, <span class="at">y =</span> mean_rating)) <span class="sc">+</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#8B4513"</span>) <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#D2691E"</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean_rating =</span> <span class="fu">mean</span>(rating, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> num_ingredients, <span class="at">y =</span> mean_rating)) <span class="sc">+</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"chocolate"</span>) <span class="sc">+</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Number of Chocolate Ingredients vs Average Ratings"</span>,</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"Number of Ingredients in the Chocolate Bar"</span>,</span>
@@ -451,6 +451,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>From the plot, we can see that the average ratings range from approximately 2.95 to 3.30, with chocolate bars containing 3 ingredients having the highest average rating. At first glance, this could suggest that chocolate bars with three ingredients are associated with higher ratings. However, the differences between these averages are relatively small, meaning we cannot make this conclusion. Additionally, this plot does not tell us whether these differences are statistically significant or whether they are due to random variation.</p>
+<p>Because of this, we will use a simulation (specifically, a permutation test) to test whether our data provides sufficient evidence of a relationship between the number of ingredients in a chocolate bar and its rating.</p>
 
 
 </section>
