@@ -32,7 +32,7 @@ First, we need to make sure the format of our data is correct to allow for the p
 
 ```{r}
 chocolate_two <- chocolate |>
-    mutate(num_ingredients = str_extract(ingredients, "^\\s*\\d+")) |>
+    mutate(num_ingredients = as.numeric(str_extract(ingredients, "^\\s*\\d+"))) |>
     filter(!is.na(num_ingredients), !is.na(rating))
 ```
 
@@ -74,9 +74,52 @@ We can also write our hypotheses numerically, using the Pearson correlation coef
 $$H_0: \rho = 0$$
 $$H_a: \rho \neq 0$$
 
+First, let's calculate the observed correlation in our data. This will be the value we'll compare against the correlations produced by our simulations.
 
 
+```{r}
+observed_correlation <- cor(
+  chocolate_two$num_ingredients,
+  chocolate_two$rating,
+  method = "pearson"
+)
 
+observed_correlation
+```
+
+We get that the observed correlation is -0.0988. This means there is a slight negative relationship between the number of ingredients in a chocolate bar and the rating it receives.
+
+Now, under the null hypothesis, the ratings and the number of ingredients in the chocolate bar are unrelated. Thus, let's simulate this "null world" by randomly shuffling the ratings while leaving the ingredient counts in their original order. We can create a function to do this.
+
+```{r}
+perm_data <- function(rep, data) {
+  data |>
+    select(num_ingredients, rating) |>
+    mutate(rating_perm = sample(rating, replace = FALSE)) |>
+    summarize(
+      observed_correlation = cor(num_ingredients, rating),
+      perm_correlation = cor(num_ingredients, rating_perm),
+      rep = rep
+    )
+}
+```
+
+This function takes in a simulation number and our cleaned chocolate dataset. Then, from the dataset, it selects only the variables we are interested in: the number of ingredients in the chocolate bar and the rating. After that, it adds a new variable to the dataset, rating_perm. This variable creates a shuffled version of the chocolate bar ratings without replacement. Then, we summarize our results. observed_correlation calculates the correlation between the number of ingredients and the rating using the original data, and per_correlation calculates the correlation between these two variables for the shuffled ratings. Lastly, rep records the first argument of the function, the simulation number.
+
+
+Now, in order to complete this simulation, we need to perform this function many times. To do so, we can use map_dbl(), like so:
+
+```{r}
+set.seed(47)
+
+num_exper <- 5000
+
+perm_stats <- map(1:num_exper, perm_data, data = chocolate_two) |>
+  list_rbind()
+
+perm_stats |>
+  head()
+```
 
 
 
