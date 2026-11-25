@@ -1,0 +1,25 @@
+---
+title: "Data Science Ethics"
+description: "An Analysis of Flock Cameras"
+author: Neha Dixit
+date: November 25, 2026
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+execute:
+  warning: false
+  message: false
+---
+
+
+# Introduction
+answering number 2 -> explaining the situation as if someone has no idea what is happening
+
+
+# Prior Research
+talk about the first and second article and what opinions the articles have
+
+
+# Questions to answer
+answering 4 questions about the article

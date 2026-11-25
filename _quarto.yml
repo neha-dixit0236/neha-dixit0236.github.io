@@ -16,6 +16,9 @@ website:
       - text: Simulations
         menu:
           - href: chocolate.qmd
+      - text: Data Science Ethics
+        menu:
+          - href: ethics.qmd
 
 
 format:
