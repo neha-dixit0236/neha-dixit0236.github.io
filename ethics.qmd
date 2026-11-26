@@ -15,19 +15,27 @@ execute:
 
 # Introduction
 
-In 2014, New York City officials received a Freedom of Information Law request from Chris Wong, who asked for taxi trip data in 2013. Thus, city officials released a dataset containing information about approximately 173 million taxi trips, but not without attempting to anonymize the data first. To protect the privacy of the taxi drivers in the dataset, officials coded the license plate and medallion numbers for each trip before making the information public. However, the predictable nature of license plate and medallion numbers in taxis in New York meant that these coded values were vulnerable to de-anonymization. Vijay Pandurangan proved this in June 2014, when he reversed the anonymization process in several hours and was able to link trips back to specific drivers ().
+In 2014, New York City officials received a Freedom of Information Law request from Chris Wong, who asked for taxi trip data in 2013. Thus, city officials released a dataset containing information about approximately 173 million taxi trips, but not without attempting to anonymize the data first. To protect the privacy of the taxi drivers in the dataset, officials coded the license plate and medallion numbers for each trip before making the information public. However, the predictable nature of license plate and medallion numbers in taxis in New York meant that these coded values were vulnerable to de-anonymization. Vijay Pandurangan proved this in June 2014, when he reversed the anonymization process in less than two hours and was able to link trips back to specific drivers (Goodin, 2014).
 
-This incident only became more controversial when, in October 2014, Northwestern graduate student Anthony Tockar, pointed out that this dataset could reveal information about the passengers in these taxi trips as well (Gawker, 2014). Using the timestamps of paparazzi photos of celebrities entering and exiting taxis, Tockar was able to cross reference the taxi trip dataset to deduce pickup and drop-off locations, the amount of the fare, and how much each celebrity tipped their driver.
+This incident only became more controversial when, in October 2014, Northwestern graduate student Anthony Tockar, pointed out that this dataset could reveal information about the passengers in these taxi trips as well (Gawker, 2014). Using the timestamps of paparazzi photos of celebrities entering and exiting taxis, Tockar was able to cross reference the taxi trip dataset to deduce pickup and drop-off locations, the amount of the fare, and make educated guesses regarding how much each celebrity tipped their driver.
 
 This situation highlights several important conversations surrounding data privacy, anonymity, and the responsibility of organiations when collecting and sharing large amounts of information. While it is important to have public data channels to further research, it is also important to ensure that the anonymization methods used by corporations when releasing this data is secure.
 
 
 # Prior Research
 
-The first 
+## Dan Goodin's Ars Technica Article
+The first article I looked at was Dan Goodin's 2014 article, "Poorly Anonymized Logs Reveal NYC Cab Drivers' Detailed Whereabouts," published by Ars Technica. Goodin explains that New York City made over 173 million taxi trip records publicly available after first attempting to protect the privacy of the taxi drivers in these trips. To anonymize the data, the city used a technique called hashing to replace indentifiable information like taxi license and medallion numbers with coded values instead. However, Vijay Pandurangan, a software engineer, realized that license plate numbers and medallion numbers are not random strings of digits. Rather, they follow a predictable pattern. By researching this pattern and the MD5 hashing algorithm used to anonymize the data, Pandurangan used computer software to generate possible license and medallion numbers and compare their hashes with the released dataset. Thus, in less than two hours, Pandurangan was able to de-anonymize the entire taxi trip dataset. This meant that individuals could use the in-depth description of all routes taxi cabs took throughout 2013 to potentially identify specific drivers. Additionally, with this location data, it became possible for these individuals to estimate driver earnings, passengers of these trips, and even where the drivers lived.
+
+The article also highlights that the use of the MD5 hashing algorithm was not at fault for the vulnerability of the dataset. Rather, Pandurangan argued that the issue arose from the way the city officials chose to anonymize the information. He noted that officials could have better protected driver privacy by assigning random identification numbers to each driver and taxi, or by using AES encryption with a secret key. These two methods would have made it much harder to reverse the anonymization process and identify the specific drivers. While Pandurangan acknowledged that it would be impossible for New York City officials to have made these changes after releasing the data (since copies of this data had already spread to numerous places), he highlighted that more secure data protection methods needed to be implemented in the future to prevent sensitive information from becoming publicly available.
+
+## Vijay Pandurangan's "On Taxis and Rainbows"
+
+The second article I looked at was an article Vijay Pandurangan wrote on Medium.com titled "On Taxis and Rainbows," which provided more detail into how he was able to de-anonymize such a large dataset.
 
 
-talk about the first and second article and what opinions the articles have
+
+
 
 
 # Ethical Considerations
