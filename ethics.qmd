@@ -64,6 +64,15 @@ In this NYC taxi dataset example, the city released millions of taxi transportat
 
 Thus, this taxi trip datset was being used in uninteded ways to the original study. What started out as one individual wanting to create visualizations modeling taxi patterns throughout the city evolved into people pointing out the privacy flaws in the dataset and proving these flaws by tracking passengers using this data and other sources of information on the internet. Ultimately, this situation highlights that while the people that release datasets may do so with good intentions, it is impossible to control all of the ways others might analyze and reuse the information once it becomes publicly available.
 
+## How were the variables collected? Were they accurately recorded? Is there any missing data?
+
+Lastly, it is important to consider whether the variables in a dataset are collected and recorded accurately and whether there is substantial missingness or unreliability in the observations. This quality control matters because researchers and organizations rely on data to make predictions and inform the decisions that affect millions of people. With extensive missingness or inaccurate data collection, the results created by researchers could be misleading.
+
+In the NYC taxi dataset, each row represents an individual taxi trip, and the dataset includes variables like pickup and drop-off times, pickup and drop-off locations, trip distance, fare amount, payment type, and passenger count (NYC Open Data). According to the NYC Taxi and Limousine Commission (TLC), these records were submitted by technology service providers who were authorized to collect taxi trip information. Thus, this information was not directly created by TLC itself. Additionally, the different variables were collected in a variety of ways. For example, pickup and drop-off times were recorded when the taxi meter was turned on and off, trip distance was reported by the taximeter, and the number of passengers for each trip was entered by the driver (NYC Open Data). This means that while some of the variables were generated through the taxi's electronic systems, other variables depended on human data entry, which could potentially introduce human error. Additionally, if the taxi's electronic system was malfunctioning, more errors could be introduced into the data collection.
+
+Additionally, there is evidence that the original dataset contained missing/unreliable observations. In a 2015 research paper analyzing this 2013 NYC taxi dataset, researchers Marjan Momtazpour and Naren Ramakrishnan explained that they had to remove several missing values from the data set. For example, the removed trips with invalid geographical coordinates, trips with identical pickup and drop-off locations, and trips with no passengers (Momtazpour & Ramakrishnan, 2015). Additionally, some information wasn't captured in the dataset at all. For example, the TLC's trip record data dictionary notes that the tip amount variable only counts tips paid with a credit card, meaning tips paid with cash are not recorded in the variable (NYC Taxi and Limousine Commission, 2025). This means that a researcher analyzing driver earnings using this dataset could underestimate the actual amount drivers received in tips.
+
+# Conclusion: Why Does This Matter?
 
 
 
@@ -74,3 +83,7 @@ Thus, this taxi trip datset was being used in uninteded ways to the original stu
 2. https://arstechnica.com/tech-policy/2014/06/poorly-anonymized-logs-reveal-nyc-cab-drivers-detailed-whereabouts/
 3. https://medium.com/vijay-pandurangan/of-taxis-and-rainbows-f6bc289679a1 
 4. https://chriswhong.com/open-data/foil_nyc_taxi/?
+5. https://data.cityofnewyork.us/Transportation/2013-Yellow-Taxi-Trip-Data/t7ny-aygi/about_data
+6. https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page (https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf?) 
+7. https://people.cs.vt.edu/~naren/papers/taxicabs-urbcomp15.pdf 
+
