@@ -341,7 +341,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#dan-goodins-ars-technica-article" id="toc-dan-goodins-ars-technica-article" class="nav-link" data-scroll-target="#dan-goodins-ars-technica-article">Dan Goodin’s Ars Technica Article</a></li>
   <li><a href="#vijay-pandurangans-on-taxis-and-rainbows" id="toc-vijay-pandurangans-on-taxis-and-rainbows" class="nav-link" data-scroll-target="#vijay-pandurangans-on-taxis-and-rainbows">Vijay Pandurangan’s “On Taxis and Rainbows”</a></li>
   </ul></li>
-  <li><a href="#ethical-considerations" id="toc-ethical-considerations" class="nav-link" data-scroll-target="#ethical-considerations">Ethical Considerations</a></li>
+  <li><a href="#ethical-considerations" id="toc-ethical-considerations" class="nav-link" data-scroll-target="#ethical-considerations">Ethical Considerations</a>
+  <ul class="collapse">
+  <li><a href="#was-the-data-publicly-available-why-how-on-what-platform" id="toc-was-the-data-publicly-available-why-how-on-what-platform" class="nav-link" data-scroll-target="#was-the-data-publicly-available-why-how-on-what-platform">Was the data publicly available? Why? How? On What Platform?</a></li>
+  <li><a href="#is-the-data-identifiable-was-it-sufficiently-anonymized" id="toc-is-the-data-identifiable-was-it-sufficiently-anonymized" class="nav-link" data-scroll-target="#is-the-data-identifiable-was-it-sufficiently-anonymized">Is the Data Identifiable? Was it Sufficiently Anonymized?</a></li>
+  </ul></li>
   <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations">Citations</a></li>
   </ul>
 </nav>
@@ -408,6 +412,15 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="ethical-considerations" class="level1">
 <h1>Ethical Considerations</h1>
+<section id="was-the-data-publicly-available-why-how-on-what-platform" class="level2">
+<h2 class="anchored" data-anchor-id="was-the-data-publicly-available-why-how-on-what-platform">Was the data publicly available? Why? How? On What Platform?</h2>
+<p>An important ethical consideration in data science is whether personal data should be made publicly available, as well as whether the benefits of sharing sensitive data outweigh the potential risks to the individuals represented in the dataset. Making data public allows for researchers, government officials, and other individuals to analyze large amounts of information and thus make more informed decisions, whether that be with regards to policy-making, healthcare, or any other industry. However, organizations also have a responsiblity to consider what information they are releasing and whether doing so could expose individuals to harm.</p>
+<p>In the case of this NYC taxi dataset, New York City officials released around 173 million taxi trip records in response to researcher Chris Whong’s Freedom of Information Law request. The dataset given to Chris Whong via a hard drive, who later shared it through downloadable links on his website (Whong, 2014). By granting his request, NYC officials allowed the public to access and analyze lots of sensitive transportation data, which could have helped researchers in a variety of different ways. For example, Whong was interested in the data because he wanted to create data visualizations of how taxis move and operate throughout the city. Additionally, combing through transportation data could allow the city to learn where to implement traffic lights and create more rigid safety measures to ensure pedestrians don’t get hurt on busy streets.</p>
+<p>However, while the public release of this dataset could have helped researchers studying traffic patterns, the data also contained detailed information about individual trips, including pickup and drop-off locations and timestamps. While officials did attempt to protect the drivers’ identities by replacing identifying information with hashed values, they did not consider the possibility that the values could be reversed. Because of this, the dataset’s public release created privacy risks for the drivers and the passengers whose trips were recorded. Reversing this anonymization technique meant that many individuals had access to common routes that specific taxi drivers took throughout the year, posing safety threats to these drivers. Ultimately, this taxi incident highlighted that while public access to data can be valuable, government agencies that collect and distribute this information have to ensure that individuals cannot be identified through the data they release, even after direct identifying information has been removed or altered.</p>
+</section>
+<section id="is-the-data-identifiable-was-it-sufficiently-anonymized" class="level2">
+<h2 class="anchored" data-anchor-id="is-the-data-identifiable-was-it-sufficiently-anonymized">Is the Data Identifiable? Was it Sufficiently Anonymized?</h2>
+</section>
 </section>
 <section id="citations" class="level1">
 <h1>Citations</h1>
@@ -415,6 +428,7 @@ ul.task-list li input[type="checkbox"] {
 <li>https://www.gawkerarchives.com/the-public-nyc-taxicab-database-that-accidentally-track-1646724546?</li>
 <li>https://arstechnica.com/tech-policy/2014/06/poorly-anonymized-logs-reveal-nyc-cab-drivers-detailed-whereabouts/</li>
 <li>https://medium.com/vijay-pandurangan/of-taxis-and-rainbows-f6bc289679a1</li>
+<li>https://chriswhong.com/open-data/foil_nyc_taxi/?</li>
 </ol>
 
 
