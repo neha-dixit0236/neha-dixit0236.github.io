@@ -50,6 +50,16 @@ However, while the public release of this dataset could have helped researchers 
 
 ## Is the Data Identifiable? Was it Sufficiently Anonymized?
 
+Another important ethical issue in data science is whether personal information is adequately anonymized before it is shared and made publicly available. Anonymization is necessary to protect the individuals in the dataset by removing or changing identifying information, like names, ages, addresses, etc. When anonymization is done right, we have a win-win scenario: the data can be released to the public and remain useful for research, and the identities of the people represented are never revealed. However, perfect anonymization is very difficult to achieve. This is because removing direct identifying information cannot always guarantee anonymity, especially because there are so many other places to obtain information on the internet. Through comparing multiple data sources with the dataset of interest, it is possible to cross reference and thus reconstruct someone's identity.
+
+This is exactly the issue that took place with the NYC taxi dataset. City officials, in an attempt to anonymize the drivers who were taking each taxi route, replaced taxi license and medallion numbers with MD5 hashes. However, because information was available about the way license plates and medallion numbers are constructed for NYC taxis, Vijay Pandurangan was able to generate MD5 hashes for the possible license and medallion numbers and compare them with the hashed values in the released dataset. Thus, in less than two hours, he reversed the anonymization process, linking the trip records back to specific drivers. Additionally, the detailed location and timestamp information in the dataset could be used to infer where drivers lived and even who their passengers were for their trips. For example, in 2014, Anthony Tockar used publicly available paparazzi photographs of celebrities, including Bradley Cooper and Olivia Munn, entering and exiting taxis to match them with records in the dataset and infer their pickup and drop-off locations (Gawker, 2014). 
+
+Through these examples, it is clear that the taxi trip dataset was not sufficiently anonymized. Although not necessarily every individual trip could be linked to a specific person, the dataset contained enough information for people to identify specific drivers and passengers by combining the released dataset with other available information (photos, taxi license patterns, etc). Additionally, the fact that the dataset contained information from 2013 means it was not old enough to be free of privacy concerns when it was released in 2014, especially because this dataset contained detailed information about drivers' daily routines and frequently visited locations.
+
+
+## Is the data being used in unintended ways to the original study?
+
+
 
 
 
