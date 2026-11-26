@@ -1,6 +1,6 @@
 ---
-title: "Data Science Ethics"
-description: "An Analysis of Flock Cameras"
+title: "NYC Taxi Data Ethics"
+description: "Privacy and the Risks of Data De-Anonymization"
 author: Neha Dixit
 date: November 25, 2026
 format:
@@ -14,12 +14,29 @@ execute:
 
 
 # Introduction
-answering number 2 -> explaining the situation as if someone has no idea what is happening
+
+In 2014, New York City officials received a Freedom of Information Law request from Chris Wong, who asked for taxi trip data in 2013. Thus, city officials released a dataset containing information about approximately 173 million taxi trips, but not without attempting to anonymize the data first. To protect the privacy of the taxi drivers in the dataset, officials coded the license plate and medallion numbers for each trip before making the information public. However, the predictable nature of license plate and medallion numbers in taxis in New York meant that these coded values were vulnerable to de-anonymization. Vijay Pandurangan proved this in June 2014, when he reversed the anonymization process in several hours and was able to link trips back to specific drivers ().
+
+This incident only became more controversial when, in October 2014, Northwestern graduate student Anthony Tockar, pointed out that this dataset could reveal information about the passengers in these taxi trips as well (Gawker, 2014). Using the timestamps of paparazzi photos of celebrities entering and exiting taxis, Tockar was able to cross reference the taxi trip dataset to deduce pickup and drop-off locations, the amount of the fare, and how much each celebrity tipped their driver.
+
+This situation highlights several important conversations surrounding data privacy, anonymity, and the responsibility of organiations when collecting and sharing large amounts of information. While it is important to have public data channels to further research, it is also important to ensure that the anonymization methods used by corporations when releasing this data is secure.
 
 
 # Prior Research
+
+The first 
+
+
 talk about the first and second article and what opinions the articles have
 
 
-# Questions to answer
+# Ethical Considerations
 answering 4 questions about the article
+
+
+
+# Citations
+
+1. https://www.gawkerarchives.com/the-public-nyc-taxicab-database-that-accidentally-track-1646724546?
+2. https://arstechnica.com/tech-policy/2014/06/poorly-anonymized-logs-reveal-nyc-cab-drivers-detailed-whereabouts/
+3. https://medium.com/vijay-pandurangan/of-taxis-and-rainbows-f6bc289679a1 
